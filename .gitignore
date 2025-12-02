@@ -10,9 +10,6 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
 # next.js
 /.next/
 /out/
@@ -23,6 +20,9 @@
 # misc
 .DS_Store
 *.pem
+
+# coverage
+/coverage
 
 # debug
 npm-debug.log*

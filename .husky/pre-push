@@ -1,0 +1,15 @@
+echo "🔍 Running pre-push checks..."
+
+# Run full test suite
+echo "🧪 Running all tests..."
+npm test || exit 1
+
+# Check test coverage
+echo "📊 Checking test coverage..."
+npm run test:coverage || exit 1
+
+# Run build
+echo "🏗️ Running build..."
+npm run build || exit 1
+
+echo "✅ All pre-push checks passed!"

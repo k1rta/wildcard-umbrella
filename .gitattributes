@@ -1,0 +1,37 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Source code
+*.js    text diff=javascript
+*.jsx   text diff=javascript
+*.ts    text diff=typescript
+*.tsx   text diff=typescript
+*.css   text diff=css
+*.json  text
+*.yaml  text
+*.yml   text
+*.md    text diff=markdown
+
+# Next.js specific
+.env.*  text
+.babelrc text
+.eslintrc text
+
+# Graphics
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary
+*.svg   text
+*.woff  binary
+*.woff2 binary
+
+# Git config
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+.gitkeep       text eol=lf
+
+# Treat lockfiles as binary to avoid merge conflicts
+package-lock.json binary
+yarn.lock        binary
+pnpm-lock.yaml   binary
