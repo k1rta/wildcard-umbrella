@@ -51,27 +51,37 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Report Status
-        if: always()
-        run: |
-          if [ "${{ job.status }}" == "failure" ]; then
-            echo "::error::CI checks failed. Please fix the issues before merging."
-            exit 1
-          fi
-
-  verify_pr:
+  pr_checks:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check title
+      - name: Check PR title
         uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            test
+            chore
+          requireScope: false
+          subjectPattern: ^[A-Z].+$
+          subjectPatternError: Subject must start with a capital letter
 
-      - name: Check branch
+      - name: Check branch name
         run: |
-          if [[ "${{ github.event.pull_request.head.ref }}" == "main" ]]; then
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ "$BRANCH_NAME" == "main" ]]; then
             echo "::error::Cannot create PR from main branch"
+            exit 1
+          fi
+          if [[ ! $BRANCH_NAME =~ ^(feature|fix|docs|chore|test|refactor)/[a-z0-9-]+$ ]]; then
+            echo "::error::Branch name must follow pattern: type/description"
+            echo "::error::Examples: feature/add-dark-mode, fix/login-error"
             exit 1
           fi
