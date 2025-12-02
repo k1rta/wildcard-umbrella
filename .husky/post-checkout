@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Args: previous HEAD, new HEAD, checkout mode (0=branch, 1=file)
+# Only run on branch checkout
+if [ "$3" = "1" ]; then
+  exit 0
+fi
+
+# Check if package.json changed
+if git diff --name-only $1 $2 | grep -q "package.json"; then
+  echo "📦 package.json changed, installing dependencies..."
+  npm install || exit 1
+fi
+
+# Check if lockfile changed but package.json didn't
+if git diff --name-only $1 $2 | grep -q "package-lock.json" && \
+   ! git diff --name-only $1 $2 | grep -q "package.json"; then
+  echo "⚠️ Warning: package-lock.json changed without package.json"
+fi

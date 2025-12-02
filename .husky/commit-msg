@@ -1,0 +1,6 @@
+echo "🔍 Checking commit message..."
+
+# Validate commit message format with commitlint
+npx --no -- commitlint --edit ${1} || exit 1
+
+echo "✅ Commit message is valid!"
