@@ -1,20 +1,5 @@
 import type { Season } from '../types/season'
 
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
-
 const SEASON_MONTHS: Record<Season, number[]> = {
   spring: [2, 3, 4], // March, April, May
   summer: [5, 6, 7], // June, July, August
@@ -39,8 +24,4 @@ export function getCurrentSeason(): Season {
   }
 
   return 'spring'
-}
-
-export function getMonthName(): string {
-  return MONTH_NAMES[new Date().getMonth()]
 }

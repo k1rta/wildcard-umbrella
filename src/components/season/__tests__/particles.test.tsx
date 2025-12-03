@@ -1,7 +1,11 @@
-import { render, screen } from '@/lib/test/test-utils'
+import { render, screen, TEST_IDS } from '@/lib/test/test-utils'
 import { ParticlesBackground } from '../particles'
-import { TEST_IDS } from '@/lib/test/test-utils'
 import type { Season } from '@/lib/types/season'
+
+// Mock tsparticles engine
+jest.mock('tsparticles', () => ({
+  loadFull: jest.fn().mockResolvedValue(undefined),
+}))
 
 describe('ParticlesBackground', () => {
   const { loadFull } = jest.requireMock('tsparticles') as {
