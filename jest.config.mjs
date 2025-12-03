@@ -24,6 +24,11 @@ const config = {
     '**/__tests__/**/*.{ts,tsx}',
     '**/*.{spec,test}.{ts,tsx}'
   ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/tests/test-utils',
+    '/test-utils'
+  ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',

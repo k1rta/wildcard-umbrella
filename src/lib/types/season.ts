@@ -2,17 +2,43 @@ export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 
 export type MoveDirection = 'none' | 'top' | 'bottom' | 'left' | 'right'
 
+interface ParticleOpacity {
+  value: number
+  animation?: {
+    enable: boolean
+    speed: number
+    minimumValue: number
+  }
+}
+
+interface ParticleMove {
+  direction: MoveDirection
+  straight: boolean
+  outMode: 'out' | 'bounce'
+  random: boolean
+  warp?: boolean
+  path?: {
+    enable: boolean
+    delay: {
+      value: number
+    }
+    generator: 'sine' | 'random'
+  }
+}
+
 export interface ParticleConfig {
   colors: string[]
   count: number
   size: number
   speed: number
-  shape: string
-  move: {
-    direction: MoveDirection
-    straight: boolean
-    outMode: 'out' | 'bounce'
-    random: boolean
+  shape: 'circle' | 'square' | 'star'
+  move: ParticleMove
+  opacity?: ParticleOpacity
+  life?: {
+    duration: {
+      value: number
+    }
+    count: number
   }
 }
 

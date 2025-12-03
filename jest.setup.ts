@@ -1,65 +1,45 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 
-// Mock framer-motion to zero out animation durations
+// Mock framer-motion
 jest.mock('framer-motion', () => ({
   ...jest.requireActual('framer-motion'),
-  motion: new Proxy(
-    {},
-    {
-      get: (_, prop) => {
-        // Return a component that renders the same HTML element as the prop name
-        return ({ children, ...props }: any) =>
-          React.createElement(
-            prop as string,
-            {
-              ...props,
-              'data-testid': props['data-testid'] || `motion-${String(prop)}`,
-            },
-            children
-          )
-      },
-    }
-  ),
+  motion: {
+    div: ({ children, ...props }: any) => React.createElement('div', props, children),
+    section: ({ children, ...props }: any) => React.createElement('section', props, children),
+    footer: ({ children, ...props }: any) => React.createElement('footer', props, children),
+    h1: ({ children, ...props }: any) => React.createElement('h1', props, children),
+    p: ({ children, ...props }: any) => React.createElement('p', props, children),
+    a: ({ children, ...props }: any) => React.createElement('a', props, children),
+  },
   AnimatePresence: ({ children }: any) => children,
-  useAnimation: () => ({
-    start: jest.fn(),
-    stop: jest.fn(),
-  }),
-  useInView: () => [jest.fn(), { ref: jest.fn() }],
-  useScroll: () => ({
-    scrollY: { get: () => 0, onChange: jest.fn() },
-    scrollYProgress: { get: () => 0, onChange: jest.fn() },
-  }),
-  useSpring: () => 0,
-  useTransform: () => 0,
 }))
 
-// Mock Next.js dynamic imports
+// Mock @tsparticles/react with initialization delay
+jest.mock('@tsparticles/react', () => {
+  const MockParticles = ({ id, options }: any) =>
+    React.createElement('div', {
+      'data-testid': 'particles-background-container',
+      'data-id': id,
+      'data-season': options?.season,
+    })
+  return {
+    __esModule: true,
+    default: MockParticles,
+  }
+})
+
+// Mock next/dynamic to return components synchronously
 jest.mock('next/dynamic', () => ({
   __esModule: true,
-  default: (...args: any[]) => {
-    const dynamicModule = jest.requireActual('next/dynamic')
-    const dynamicActualComp = dynamicModule.default
-    const RequiredComponent = dynamicActualComp(args[0])
-    RequiredComponent.preload ? RequiredComponent.preload() : RequiredComponent.render.preload()
-    return RequiredComponent
+  default: (importFunc: any) => {
+    // Return the actual mocked component
+    const mod = require('@tsparticles/react')
+    return mod.default
   },
 }))
 
-// Mock ParticlesBackground component
-jest.mock('@/components/season/particles', () => ({
-  ParticlesBackground: ({ children }: any) =>
-    React.createElement('div', { 'data-testid': 'particles-bg' }, children),
-}))
-
 // Mock tsparticles
-jest.mock('@tsparticles/react', () => ({
-  __esModule: true,
-  default: ({ children }: any) =>
-    React.createElement('div', { 'data-testid': 'particles' }, children),
-}))
-
 jest.mock('tsparticles', () => ({
   loadFull: jest.fn().mockResolvedValue(undefined),
 }))
