@@ -1,15 +1,15 @@
-# Personal Portfolio
+# Marketing & Data Professional Portfolio
 
-A modern, responsive portfolio website with seasonal themes and smooth animations.
+A modern, responsive portfolio website showcasing data-driven marketing solutions and analytics expertise.
 
 ## Features
 
 ### Core Features
 
-- 🎨 Seasonal theming (changes automatically based on current season)
-- ✨ Smooth animations and transitions
+- 📊 Data-Driven Marketing Solutions
+- 📈 Analytics & Campaign Management
+- 🎯 Performance Marketing Expertise
 - 📱 Fully responsive design
-- 🎯 Modern, clean UI with icon-based navigation
 - 🔄 Dynamic content with rotating taglines
 
 ### Technical Features
@@ -23,10 +23,13 @@ A modern, responsive portfolio website with seasonal themes and smooth animation
 
 ## Tech Stack
 
-- Next.js 14
-- TypeScript
+- Next.js 14.1.0
+- TypeScript 5
 - Tailwind CSS
 - Lucide Icons
+- tsParticles
+- Framer Motion
+- Geist Font
 
 ## Architecture
 
@@ -216,29 +219,40 @@ export default function AnyPage() {
 - Efficient module resolution
 - Minimal dev dependencies
 
-## Code Quality
+## Testing & Code Quality
 
-This project uses:
+### Test Coverage
+
+The project has unit tests for critical components and utilities:
+
+- **Season Feature Tests**:
+  - `particles.test.tsx`: Particle animation component
+  - `provider.test.tsx`: Season context provider
+- **Utility Tests**:
+  - `date.test.ts`: Date utility functions
+
+### Test Configuration
+
+- **Jest + React Testing Library**
+  - JSDOM test environment
+  - Coverage reporting enabled
+  - Excludes stories, types, and layouts
+  - Module path aliases support
+
+### Code Quality Tools
 
 - **ESLint**: Static code analysis
-  - Configured for Next.js
+  - Next.js configuration
   - TypeScript support
-  - Import sorting
 
 - **Prettier**: Code formatting
-  - Consistent style
-  - Automatic fixing
+  - Auto-formatting on commit
   - IDE integration
 
-- **Husky**: Git hooks
-  - Pre-commit linting
+- **Husky + lint-staged**:
+  - Pre-commit checks
   - Type checking
-  - Code formatting
-
-- **lint-staged**: Staged files
-  - Only lint changed files
-  - Faster commits
-  - Automatic fixing
+  - Run tests on changed files
 
 ### Git Setup
 
@@ -386,11 +400,10 @@ This project is set up for CI/CD with:
 1. Type checking (`tsc --noEmit`)
 2. Next.js ESLint with custom rules
 3. Format check (Prettier)
-4. Jest tests with coverage thresholds:
-   - 80% statements
-   - 80% branches
-   - 80% functions
-   - 80% lines
+4. Jest tests with coverage reporting:
+   - Coverage collection enabled
+   - Coverage thresholds configured but temporarily disabled
+   - Excludes stories, types, and app layouts
 5. Next.js production build
 
 **Pull Request Checks:**

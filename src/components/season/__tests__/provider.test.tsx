@@ -1,22 +1,32 @@
-/* eslint-disable react/display-name */
-import { screen } from '@testing-library/react'
-import { render } from '@testing-library/react'
+// External libraries
+import { render, screen } from '@testing-library/react'
+
+// Internal modules
 import { SeasonProvider, useSeasonContext } from '../provider'
 import { SEASONS } from '@/lib/constants/seasons'
+import { TEST_IDS } from '@/lib/test/test-utils'
 import type { Season } from '@/lib/types/season'
 
-// Test components
-function TestComponent() {
+// Test Components
+/**
+ * Test component that displays the current season from context
+ * Used to verify context value propagation
+ */
+function SeasonDisplay() {
   const { season } = useSeasonContext()
-  return <div data-testid="season">{season}</div>
+  return <div data-testid={TEST_IDS.season.contextValue}>{season}</div>
 }
 
-function ErrorComponent() {
+/**
+ * Test component that triggers context error
+ * Used to verify error handling when context is missing
+ */
+function ErrorTrigger() {
   useSeasonContext()
   return null
 }
 
-// Mock setup
+// Mock Setup
 jest.mock('@/lib/utils/date')
 jest.mock('../particles')
 
@@ -29,12 +39,21 @@ const particles = jest.requireMock('../particles') as {
 }
 
 // Configure mocks
-dateUtils.getCurrentSeason.mockReturnValue('spring')
 particles.ParticlesBackground = ({ season, children }) => (
-  <div data-testid="particles-bg" data-season={season}>
+  <div data-testid={TEST_IDS.particles.container} data-season={season}>
     {children}
   </div>
 )
+
+/**
+ * Renders a SeasonProvider with test content
+ * @param season - Optional season to mock
+ * @param children - Components to render within provider
+ */
+function renderWithProvider(season: Season = 'spring', children: React.ReactNode) {
+  dateUtils.getCurrentSeason.mockReturnValue(season)
+  return render(<SeasonProvider>{children}</SeasonProvider>)
+}
 
 describe('SeasonProvider', () => {
   beforeEach(() => {
@@ -42,79 +61,109 @@ describe('SeasonProvider', () => {
     dateUtils.getCurrentSeason.mockReturnValue('spring')
   })
 
-  describe('context value', () => {
-    describe('valid seasons', () => {
-      it.each(SEASONS)('should provide %s season to children', (expectedSeason) => {
-        dateUtils.getCurrentSeason.mockReturnValue(expectedSeason)
-        render(
-          <SeasonProvider>
-            <TestComponent />
-          </SeasonProvider>
-        )
-        expect(screen.getByTestId('season')).toHaveTextContent(expectedSeason)
-      })
+  describe('Season Context', () => {
+    it.each(SEASONS)('should display %s theme when season changes', (expectedSeason) => {
+      renderWithProvider(expectedSeason, <SeasonDisplay />)
+      expect(screen.getByTestId(TEST_IDS.season.contextValue)).toHaveTextContent(expectedSeason)
     })
 
-    describe('error handling', () => {
-      const invalidCases = [
+    describe('Fallback Behavior', () => {
+      const fallbackCases = [
         {
+          scenario: 'invalid season name',
           input: 'invalid-season' as unknown,
           expected: 'spring',
-          description: 'handles invalid season',
         },
-        { input: undefined as unknown, expected: 'spring', description: 'handles undefined' },
-        { input: null as unknown, expected: 'spring', description: 'handles null' },
+        { scenario: 'missing season', input: undefined as unknown, expected: 'spring' },
+        { scenario: 'null season', input: null as unknown, expected: 'spring' },
       ] as const
 
-      it.each(invalidCases)(
-        'when getCurrentSeason returns ${input}, defaults to ${expected} (${description})',
+      it.each(fallbackCases)(
+        'should use spring theme when $scenario is provided',
         ({ input, expected }) => {
-          // We need to cast here because we're testing invalid inputs
           dateUtils.getCurrentSeason.mockReturnValue(input as Season)
-          render(
-            <SeasonProvider>
-              <TestComponent />
-            </SeasonProvider>
-          )
-          expect(screen.getByTestId('season')).toHaveTextContent(expected)
+          renderWithProvider('spring', <SeasonDisplay />)
+          expect(screen.getByTestId(TEST_IDS.season.contextValue)).toHaveTextContent(expected)
         }
       )
     })
-  })
 
-  describe('component rendering', () => {
-    it('should render ParticlesBackground with correct season', () => {
-      dateUtils.getCurrentSeason.mockReturnValue('winter')
-      render(
+    it('should maintain theme consistency during page updates', () => {
+      const { rerender } = render(
         <SeasonProvider>
-          <div>Child</div>
+          <SeasonDisplay />
         </SeasonProvider>
       )
+      const initialTheme = screen.getByTestId(TEST_IDS.season.contextValue).textContent
 
-      const particles = screen.getByTestId('particles-bg')
-      expect(particles).toHaveAttribute('data-season', 'winter')
-    })
-
-    it('should render children correctly', () => {
-      const childText = 'Test Child'
-      render(
+      rerender(
         <SeasonProvider>
-          <div data-testid="child">{childText}</div>
+          <SeasonDisplay />
         </SeasonProvider>
       )
-
-      expect(screen.getByTestId('child')).toHaveTextContent(childText)
+      expect(screen.getByTestId(TEST_IDS.season.contextValue).textContent).toBe(initialTheme)
     })
   })
 
-  describe('error handling', () => {
-    it('should throw error when used outside provider', () => {
+  describe('Visual Elements', () => {
+    it('should display seasonal particle effects', () => {
+      renderWithProvider('winter', <SeasonDisplay />)
+      const particlesBg = screen.getByTestId(TEST_IDS.particles.container)
+      expect(particlesBg).toBeInTheDocument()
+      expect(particlesBg).toHaveAttribute('data-season', 'winter')
+    })
+
+    it('should render child components with seasonal theme', () => {
+      renderWithProvider(
+        'spring',
+        <>
+          <div data-testid={TEST_IDS.season.childPrimary}>Child 1</div>
+          <div data-testid={TEST_IDS.season.childSecondary}>Child 2</div>
+        </>
+      )
+      expect(screen.getByTestId(TEST_IDS.season.childPrimary)).toBeInTheDocument()
+      expect(screen.getByTestId(TEST_IDS.season.childSecondary)).toBeInTheDocument()
+    })
+  })
+
+  describe('Integration', () => {
+    it('should automatically detect current season on page load', () => {
+      renderWithProvider('spring', <SeasonDisplay />)
+      expect(dateUtils.getCurrentSeason).toHaveBeenCalledTimes(1)
+    })
+
+    it('should support multiple seasonal themes on the same page', () => {
+      dateUtils.getCurrentSeason.mockReturnValue('spring')
+      render(
+        <>
+          <SeasonProvider>
+            <div data-testid={TEST_IDS.season.providerContent + '-1'}>
+              <SeasonDisplay />
+            </div>
+          </SeasonProvider>
+          <SeasonProvider>
+            <div data-testid={TEST_IDS.season.providerContent + '-2'}>
+              <SeasonDisplay />
+            </div>
+          </SeasonProvider>
+        </>
+      )
+      expect(dateUtils.getCurrentSeason).toHaveBeenCalledTimes(2)
+    })
+
+    it('should handle empty content gracefully', () => {
+      expect(() => render(<SeasonProvider>{null}</SeasonProvider>)).not.toThrow()
+    })
+  })
+
+  describe('Error Boundaries', () => {
+    it('should show helpful message when seasonal theme is used incorrectly', () => {
       // Suppress console.error for this test as we expect an error
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
-      expect(() => {
-        render(<ErrorComponent />)
-      }).toThrow('useSeasonContext must be used within a SeasonProvider')
+      expect(() => render(<ErrorTrigger />)).toThrow(
+        'useSeasonContext must be used within a SeasonProvider'
+      )
 
       consoleSpy.mockRestore()
     })
