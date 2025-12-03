@@ -18,17 +18,10 @@ const config = {
     // Handle module aliases from tsconfig.json
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
-    '^@lib/(.*)$': '<rootDir>/src/lib/$1'
+    '^@lib/(.*)$': '<rootDir>/src/lib/$1',
   },
-  testMatch: [
-    '**/__tests__/**/*.{ts,tsx}',
-    '**/*.{spec,test}.{ts,tsx}'
-  ],
-  testPathIgnorePatterns: [
-    '/node_modules/',
-    '/tests/test-utils',
-    '/test-utils'
-  ],
+  testMatch: ['**/__tests__/**/*.{ts,tsx}', '**/*.{spec,test}.{ts,tsx}'],
+  testPathIgnorePatterns: ['/node_modules/', '/tests/test-utils', '/test-utils'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
@@ -38,6 +31,9 @@ const config = {
     '!src/**/types/**',
     '!src/app/layout.tsx',
     '!src/app/page.tsx',
+    '!src/lib/constants/**/*.{ts,tsx}',
+    '!src/lib/test/**/*.{ts,tsx}',
+    // Keep date utils in coverage as it contains core business logic
   ],
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',

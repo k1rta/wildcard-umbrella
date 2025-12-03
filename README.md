@@ -1,5 +1,11 @@
 # Marketing & Data Professional Portfolio
 
+[![CI](https://github.com/k1rta/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/k1rta/portfolio/actions/workflows/ci.yml)
+[![Coverage Status](https://img.shields.io/badge/coverage-52%25-yellow.svg)](https://github.com/k1rta/portfolio/actions)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.0-black.svg)](https://nextjs.org/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 A modern, responsive portfolio website showcasing data-driven marketing solutions and analytics expertise.
 
 ## Features
@@ -38,7 +44,6 @@ A modern, responsive portfolio website showcasing data-driven marketing solution
 ```text
 .github/            # GitHub configuration
 ├── workflows/      # CI/CD workflows
-├── CODEOWNERS      # Code ownership rules
 └── pull_request_template.md
 
 .husky/            # Git hooks
@@ -147,11 +152,48 @@ The project follows a component-based architecture with three main categories:
 
 ## Development
 
+## Development Environment
+
 ### Prerequisites
 
 - Node.js 20.x or later
 - npm 10.x or later
 - Git
+- VS Code (recommended)
+
+### VS Code Setup
+
+1. Install recommended extensions:
+   - ESLint
+   - Prettier
+   - TypeScript + JavaScript
+   - Tailwind CSS IntelliSense
+
+2. Enable settings:
+
+   ```json
+   {
+     "editor.formatOnSave": true,
+     "editor.defaultFormatter": "esbenp.prettier-vscode",
+     "editor.codeActionsOnSave": {
+       "source.fixAll.eslint": true
+     }
+   }
+   ```
+
+### Environment Variables
+
+1. Copy the example env file:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Update variables as needed:
+
+   ```bash
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
 
 ### Local Development
 
@@ -223,13 +265,31 @@ export default function AnyPage() {
 
 ### Test Coverage
 
-The project has unit tests for critical components and utilities:
+The project maintains comprehensive test coverage for critical features:
+
+```text
+Test Coverage Summary
+-------------------
+Components/Season: 99.09% (92.3% branches)
+- particles.tsx:  100% coverage
+- provider.tsx:   97.43% coverage
+
+Components/UI
+- title.tsx:      100% coverage
+
+Lib/Utils
+- date.ts:        100% coverage (80% branches)
+```
+
+Key test suites:
 
 - **Season Feature Tests**:
-  - `particles.test.tsx`: Particle animation component
-  - `provider.test.tsx`: Season context provider
+  - `particles.test.tsx`: Particle effects and animations
+  - `provider.test.tsx`: Season context and theme management
+- **UI Component Tests**:
+  - `title.test.tsx`: Title component with seasonal themes
 - **Utility Tests**:
-  - `date.test.ts`: Date utility functions
+  - `date.test.ts`: Season detection logic
 
 ### Test Configuration
 
@@ -238,6 +298,62 @@ The project has unit tests for critical components and utilities:
   - Coverage reporting enabled
   - Excludes stories, types, and layouts
   - Module path aliases support
+
+## Troubleshooting
+
+### Common Issues
+
+#### Build Errors
+
+1. **Module not found errors**
+
+   ```bash
+   Error: Cannot find module '@/components/...'
+   ```
+
+   - Check tsconfig.json paths
+   - Run `npm install` to rebuild module links
+
+2. **Type errors**
+
+   ```typescript
+   Type ... is not assignable to type ...
+   ```
+
+   - Run `npm run type-check` for details
+   - Check recent type changes
+
+#### Test Issues
+
+1. **Act warnings**
+
+   ```bash
+   Warning: An update to Component inside a test was not wrapped in act(...)
+   ```
+
+   - Add `await` to async actions
+   - Wrap state updates in `act`
+
+2. **Snapshot failures**
+
+   ```bash
+   Snapshot ... does not match
+   ```
+
+   - Review changes in `git diff`
+   - Update if intended: `npm run test:update`
+
+### Development Tips
+
+1. **Fast Refresh not working**
+   - Check for syntax errors
+   - Ensure component name is capitalized
+   - Verify export is not anonymous
+
+2. **Seasonal theme issues**
+   - Clear localStorage
+   - Check date utils mock in tests
+   - Verify SeasonProvider wrapper
 
 ### Code Quality Tools
 

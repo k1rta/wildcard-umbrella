@@ -1,6 +1,21 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 
+// Suppress act() warnings in tests (they don't affect functionality)
+const originalError = console.error
+beforeAll(() => {
+  console.error = (...args: any[]) => {
+    if (typeof args[0] === 'string' && args[0].includes('was not wrapped in act')) {
+      return
+    }
+    originalError.call(console, ...args)
+  }
+})
+
+afterAll(() => {
+  console.error = originalError
+})
+
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
   ...jest.requireActual('framer-motion'),

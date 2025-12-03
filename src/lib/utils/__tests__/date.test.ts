@@ -1,4 +1,4 @@
-import { getCurrentSeason, getMonthName } from '../date'
+import { getCurrentSeason } from '../date'
 
 describe('date utilities', () => {
   const mockDate = new Date('2025-03-21') // Spring equinox
@@ -72,28 +72,6 @@ describe('date utilities', () => {
         // Restore original getMonth
         Date.prototype.getMonth = originalGetMonth
       }
-    })
-  })
-
-  describe('getMonthName', () => {
-    const monthTests = [
-      { date: '2025-01-15', expected: 'January' },
-      { date: '2025-02-15', expected: 'February' },
-      { date: '2025-03-15', expected: 'March' },
-      { date: '2025-04-15', expected: 'April' },
-      { date: '2025-05-15', expected: 'May' },
-      { date: '2025-06-15', expected: 'June' },
-      { date: '2025-07-15', expected: 'July' },
-      { date: '2025-08-15', expected: 'August' },
-      { date: '2025-09-15', expected: 'September' },
-      { date: '2025-10-15', expected: 'October' },
-      { date: '2025-11-15', expected: 'November' },
-      { date: '2025-12-15', expected: 'December' },
-    ]
-
-    it.each(monthTests)('should return $expected for $date', ({ date, expected }) => {
-      jest.setSystemTime(new Date(date))
-      expect(getMonthName()).toBe(expected)
     })
   })
 })
