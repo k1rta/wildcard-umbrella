@@ -1,7 +1,7 @@
 # Marketing & Data Professional Portfolio
 
-[![CI](https://github.com/k1rta/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/k1rta/portfolio/actions/workflows/ci.yml)
-[![Coverage Status](https://img.shields.io/badge/coverage-52%25-yellow.svg)](https://github.com/k1rta/portfolio/actions)
+[![CI](https://github.com/kirta-linda-karits/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/kirta-linda-karits/portfolio/actions/workflows/ci.yml)
+[![Coverage Status](https://img.shields.io/badge/coverage-40.3%25-yellow.svg)](https://github.com/kirta-linda-karits/portfolio/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black.svg)](https://nextjs.org/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
@@ -148,21 +148,64 @@ The project follows a component-based architecture with three main categories:
 
 - `footer.tsx`: Customizable footer with seasonal colors and dynamic content
 
-  ```tsx
-  // Default usage
-  <Footer />
+```tsx
+// Default usage
+function ExampleFooter() {
+  return <Footer />
+}
 
-  // Custom name/tagline
-  <Footer name="John Doe" tagline="Full Stack Developer" />
+// Custom name/tagline
+function CustomFooter() {
+  return <Footer name="John Doe" tagline="Full Stack Developer" />
+}
 
-  // Custom content
-  <Footer>
-    <p>Custom footer content</p>
-  </Footer>
-  ```
+// Custom content
+function ContentFooter() {
+  return (
+    <Footer>
+      <p>Custom footer content</p>
+    </Footer>
+  )
+}
+```
 
-- `text.tsx`: Animated text with seasonal colors
+- `text.tsx`: Animated text with seasonal colors and motion effects
+
+```tsx
+// Default paragraph
+function ExampleText() {
+  return <Text>Regular paragraph text</Text>
+}
+
+// As different element with delay
+function DelayedText() {
+  return (
+    <Text as="span" delay={0.3}>
+      Delayed span text
+    </Text>
+  )
+}
+
+// Custom styling
+function StyledText() {
+  return <Text className="text-lg font-medium">Styled text</Text>
+}
+```
+
 - `title.tsx`: Page titles with seasonal gradient animations
+
+```tsx
+// Default usage
+function ExampleTitle() {
+  return <Title>Page Title</Title>
+}
+
+// With custom styling
+function StyledTitle() {
+  return <Title className="mt-8">Custom Title</Title>
+}
+```
+
 - `nav/`: Navigation components
   - `icons.tsx`: Icon exports from Lucide
   - `icon-link.tsx`: Single icon with hover effects
@@ -293,15 +336,29 @@ The project maintains comprehensive test coverage for critical features:
 ```text
 Test Coverage Summary
 -------------------
+Overall: 40.3% Statements | 60.71% Branches | 40% Functions
+
 Components/Season: 99.09% (92.3% branches)
 - particles.tsx:  100% coverage
-- provider.tsx:   97.43% coverage
+- provider.tsx:   97.43% coverage (line 31 uncovered)
 
-Components/UI
+Components/UI: 36.64% (33.33% branches)
 - title.tsx:      100% coverage
+- footer.tsx:     0% coverage
+- text.tsx:       0% coverage
+- icon-grid.tsx:  0% coverage
+- icon-link.tsx:  0% coverage
 
 Lib/Utils
-- date.ts:        100% coverage (80% branches)
+- date.ts:        100% coverage (80% branches, line 15 uncovered)
+
+Pages: 0% coverage
+- All page components need tests
+
+Next Steps:
+1. Add tests for UI components (footer, text, icon-grid)
+2. Add tests for page components
+3. Improve branch coverage in date.ts and provider.tsx
 ```
 
 Key test suites:

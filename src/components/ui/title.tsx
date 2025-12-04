@@ -1,11 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { useSeasonContext } from '@/components/season/provider'
-import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import { TEST_IDS } from '@/lib/constants/test-ids'
 
-type TitleProps = {
+type TitleProps = HTMLMotionProps<'h1'> & {
   children: React.ReactNode
   className?: string
 }

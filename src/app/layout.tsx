@@ -24,10 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geist.className}>
-      <body className="bg-black antialiased min-h-screen flex flex-col">
+      <body className="bg-black antialiased">
         <SeasonProvider>
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <div className="min-h-screen flex flex-col">
+            {children}
+            <Footer />
+          </div>
         </SeasonProvider>
       </body>
     </html>
