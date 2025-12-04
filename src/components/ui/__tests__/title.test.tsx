@@ -18,18 +18,21 @@ describe('Title', () => {
   describe('Rendering', () => {
     it('should render children content', () => {
       render(<Title>Test Title</Title>)
-      expect(screen.getByText('Test Title')).toBeInTheDocument()
+      const title = screen.getByTestId(TEST_IDS.ui.title)
+      expect(title).toHaveTextContent('Test Title')
     })
 
     it('should apply custom className', () => {
       render(<Title className="custom-class">Styled Title</Title>)
-      const title = screen.getByText('Styled Title')
+      const title = screen.getByTestId(TEST_IDS.ui.title)
       expect(title).toHaveClass('custom-class')
     })
 
     it('should render as h1 heading', () => {
       render(<Title>Heading</Title>)
-      const heading = screen.getByRole('heading', { level: 1 })
+      const heading = screen.getByTestId(TEST_IDS.ui.title)
+      expect(heading).toHaveAttribute('role', 'heading')
+      expect(heading).toHaveAttribute('aria-level', '1')
       expect(heading).toHaveTextContent('Heading')
     })
   })
@@ -64,7 +67,7 @@ describe('Title', () => {
         dateUtils.getCurrentSeason.mockReturnValue(season)
         render(<Title>{season} Title</Title>)
 
-        const title = screen.getByText(`${season} Title`)
+        const title = screen.getByTestId(TEST_IDS.ui.title)
         const gradientClasses = gradient.split(' ')
 
         gradientClasses.forEach((className) => {
@@ -77,7 +80,7 @@ describe('Title', () => {
   describe('Animation', () => {
     it('should have base text styling classes', () => {
       render(<Title>Animated Title</Title>)
-      const title = screen.getByText('Animated Title')
+      const title = screen.getByTestId(TEST_IDS.ui.title)
 
       expect(title).toHaveClass('text-5xl')
       expect(title).toHaveClass('font-extralight')
@@ -90,7 +93,8 @@ describe('Title', () => {
       // framer-motion is mocked to render as plain h1
       // Test that component renders successfully with motion props
       render(<Title>Motion Title</Title>)
-      expect(screen.getByText('Motion Title')).toBeInTheDocument()
+      const title = screen.getByTestId(TEST_IDS.ui.title)
+      expect(title).toHaveTextContent('Motion Title')
     })
   })
 
@@ -99,14 +103,14 @@ describe('Title', () => {
       dateUtils.getCurrentSeason.mockReturnValue('spring')
       const { rerender } = render(<Title>Dynamic Title</Title>)
 
-      let title = screen.getByText('Dynamic Title')
+      let title = screen.getByTestId(TEST_IDS.ui.title)
       expect(title).toHaveClass('from-fuchsia-400')
 
       // Change season
       dateUtils.getCurrentSeason.mockReturnValue('winter')
       rerender(<Title>Dynamic Title</Title>)
 
-      title = screen.getByText('Dynamic Title')
+      title = screen.getByTestId(TEST_IDS.ui.title)
       expect(title).toHaveClass('from-cyan-300')
     })
 
@@ -114,7 +118,7 @@ describe('Title', () => {
       dateUtils.getCurrentSeason.mockReturnValue('summer')
       render(<Title className="mt-8">Combined</Title>)
 
-      const title = screen.getByText('Combined')
+      const title = screen.getByTestId(TEST_IDS.ui.title)
       expect(title).toHaveClass('mt-8')
       expect(title).toHaveClass('from-amber-300')
     })

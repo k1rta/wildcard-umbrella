@@ -5,21 +5,48 @@ import { useSeasonContext } from '@/components/season/provider'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import { TEST_IDS } from '@/lib/constants/test-ids'
 
-type TitleProps = {
-  children: React.ReactNode
-  className?: string
+/**
+ * Props for the Title component
+ * @typedef TitleProps
+ */
+export type TitleProps = {
+  /** Content to be rendered */
+  readonly children: React.ReactNode
+  /** Optional CSS classes */
+  readonly className?: string
 }
 
-export function Title({ children, className = '' }: TitleProps) {
+/**
+ * A main heading component with seasonal gradient animation.
+ * Always renders as h1 with proper ARIA attributes.
+ *
+ * @param props - {@link TitleProps}
+ * @returns React element with motion animation
+ */
+export function Title({ children, className = '' }: TitleProps): JSX.Element {
   const { season } = useSeasonContext()
 
-  // Modern gradient combinations for each season
+  /**
+   * Seasonal gradient combinations for visual theming
+   * @readonly
+   */
   const gradients = {
     spring: 'from-fuchsia-400 via-purple-400 to-violet-400', // Vibrant spring flowers
     summer: 'from-amber-300 via-yellow-300 to-orange-300', // Warm summer sunset
     autumn: 'from-amber-500 via-orange-400 to-rose-400', // Rich autumn leaves
     winter: 'from-cyan-300 via-blue-400 to-indigo-400', // Cool winter ice
   }
+
+  /**
+   * Animation transition configuration
+   * @readonly
+   */
+  const transition = {
+    duration: 1,
+    ease: [0.6, 0.01, -0.05, 0.95] as const,
+    opacity: { duration: 1.2 },
+    filter: { duration: 1.4 },
+  } as const
 
   return (
     <motion.h1
@@ -33,12 +60,7 @@ export function Title({ children, className = '' }: TitleProps) {
       `}
       initial={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      transition={{
-        duration: 1,
-        ease: [0.6, 0.01, -0.05, 0.95],
-        opacity: { duration: 1.2 },
-        filter: { duration: 1.4 },
-      }}
+      transition={transition}
       aria-level={1}
       role="heading"
       data-testid={TEST_IDS.ui.title}
