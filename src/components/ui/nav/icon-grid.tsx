@@ -3,7 +3,7 @@
 import * as Icons from './icons'
 import { IconLink } from './icon-link'
 import { useSeasonContext } from '../../season/provider'
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import type { Season } from '@/lib/types/season'
 import { TEST_IDS } from '@/lib/constants/test-ids'
@@ -91,7 +91,6 @@ export function IconGrid({
   className = '',
   columns = 3,
 }: IconGridProps): JSX.Element {
-  const renderCount = useRef(0)
   const { season } = useSeasonContext()
   const { theme } = SEASON_CONFIGS[season as Season]
 
@@ -123,7 +122,6 @@ export function IconGrid({
     <nav
       className={`grid ${gridColsClass} gap-6 max-w-md mx-auto ${className}`}
       data-testid={TEST_IDS.ui.iconGrid}
-      data-render-count={renderCount.current++}
       role="navigation"
       aria-label="Main navigation"
     >
