@@ -305,60 +305,33 @@ Key test suites:
   - `provider.test.tsx`: Season context and theme management
 - **UI Component Tests**:
   - `title.test.tsx`: Title component with seasonal themes
-- **Utility Tests**:
-  - `date.test.ts`: Season detection logic
-
-### Test Configuration
-
-#### Test IDs for E2E Testing
-
-All test IDs are centralized in `src/lib/constants/test-ids.ts` for consistent testing:
 
 ```typescript
-TEST_IDS = {
-  page: {
-    layout: 'page-layout', // Main page layout wrapper
-    home: 'page-home', // Home page content
-    resume: 'page-resume', // Resume page content
-    analytics: 'page-analytics', // Analytics page content
-    campaigns: 'page-campaigns', // Campaigns page content
-    metrics: 'page-metrics', // Metrics page content
-    company: 'page-company', // Company page content
-    hero: 'page-hero-section', // Hero section on home page
-  },
-  ui: {
-    title: 'ui-title-heading', // Page titles
-    text: 'ui-text-paragraph', // Text components
-    footer: 'ui-footer-container', // Footer component
-    iconGrid: 'ui-icon-grid', // Navigation grid
-  },
-}
-```
+// Custom render with SeasonProvider
+import { render, screen, TEST_IDS } from '@/lib/test/test-utils'
 
-E2E Testing Examples:
-
-```typescript
-// Navigation
-cy.getByTestId('ui-icon-grid').within(() => {
-  cy.contains('Resume').click()
+// Component test example
+it('should render with seasonal theme', () => {
+  render(<Title>Test</Title>)
+  const title = screen.getByTestId(TEST_IDS.ui.title)
+  expect(title).toHaveClass('from-fuchsia-400')
 })
-cy.getByTestId('page-resume').should('be.visible')
 
-// Content
-cy.getByTestId('page-hero-section').within(() => {
-  cy.getByTestId('ui-title-heading').should('contain', 'Marketing')
+// Utility test example
+it('should detect current season', () => {
+  jest.setSystemTime(new Date('2025-03-21'))
+  expect(getCurrentSeason()).toBe('spring')
 })
 ```
 
-#### Jest Configuration
+#### Configuration
 
-- **Jest + React Testing Library**
-  - JSDOM test environment
-  - Coverage reporting enabled
-  - Excludes stories, types, and layouts
-  - Module path aliases support
-  - Standardized data-testid attributes
-  - Custom test utilities with SeasonProvider wrapper
+- **Jest Setup**
+  - JSDOM environment
+  - Coverage reporting
+  - Module path aliases
+  - Framer Motion mocking
+  - Date/time utilities
 
 ## Troubleshooting
 
