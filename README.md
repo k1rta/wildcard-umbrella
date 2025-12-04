@@ -142,7 +142,12 @@ The project follows a component-based architecture with three main categories:
 - `title.tsx`: Page titles with animations
 - `nav/`: Navigation components
   - `icons.tsx`: Icon exports from Lucide
-  - `icon-link.tsx`: Single icon with hover effects
+  - `icon-link.tsx`: Accessible icon link component with:
+    - External link detection and security
+    - ARIA labels for accessibility
+    - TypeScript type safety
+    - Configurable target behavior
+    - Framer Motion hover effects
   - `icon-grid.tsx`: Responsive icon grid
 
 #### Season Feature
@@ -225,13 +230,19 @@ The project follows a component-based architecture with three main categories:
 ## Usage
 
 ```tsx
-// pages/any-page.tsx
-export default function AnyPage() {
+// Example usage of IconLink component
+import { IconLink } from '@/components/ui/nav/icon-link'
+import { GithubIcon } from 'lucide-react'
+
+export default function Navigation() {
   return (
-    <PageLayout>
-      <HeroSection title="Page Title" taglines={['Tagline 1', 'Tagline 2']} />
-      <IconGrid />
-    </PageLayout>
+    <IconLink
+      href="https://github.com/username"
+      icon={<GithubIcon />}
+      label="View GitHub Profile"
+      className="custom-styles"
+      target="_blank"
+    />
   )
 }
 ```
