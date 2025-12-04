@@ -1,14 +1,14 @@
 # 🌟 Next.js Seasonal Portfolio
 
-[![CI Status](https://github.com/k1rta/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/k1rta/portfolio/actions/workflows/ci.yml)
-[![Test Coverage](https://img.shields.io/badge/coverage-99.77%25-brightgreen.svg)](https://github.com/k1rta/portfolio/actions)
-[![Tests](https://img.shields.io/badge/tests-128%20passed-brightgreen.svg)](https://github.com/k1rta/portfolio/actions)
+[![CI Status](https://github.com/k1rta/wildcard-umbrella/actions/workflows/ci.yml/badge.svg)](https://github.com/k1rta/wildcard-umbrella/actions/workflows/ci.yml)
+[![Test Coverage](https://img.shields.io/badge/coverage-99.77%25-brightgreen.svg)](https://github.com/k1rta/wildcard-umbrella/actions)
+[![Tests](https://img.shields.io/badge/tests-128%20passed-brightgreen.svg)](https://github.com/k1rta/wildcard-umbrella/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black.svg)](https://nextjs.org/)
 [![WCAG 2.1](https://img.shields.io/badge/WCAG-2.1%20AA-success.svg)](https://www.w3.org/WAI/WCAG21/quickref/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Fork-Friendly](https://img.shields.io/badge/🍴_Fork--Friendly-Welcome!-success.svg)](https://github.com/k1rta/portfolio/fork)
+[![Fork-Friendly](https://img.shields.io/badge/🍴_Fork--Friendly-Welcome!-success.svg)](https://github.com/k1rta/wildcard-umbrella/fork)
 
 A production-grade Next.js 14 portfolio with dynamic seasonal theming and exceptional test coverage (99.77%).
 Built for both professional showcasing and learning modern React best practices.
