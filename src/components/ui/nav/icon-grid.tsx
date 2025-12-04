@@ -22,7 +22,7 @@ type IconGridProps = {
 
 const DEFAULT_ICONS: IconItem[] = [
   {
-    href: '/resume.pdf',
+    href: '/resume',
     icon: <Icons.FileText size={24} strokeWidth={1.5} />,
     label: 'Resume',
     testId: 'icon-resume',

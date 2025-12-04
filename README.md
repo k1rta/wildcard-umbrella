@@ -51,7 +51,13 @@ A modern, responsive portfolio website showcasing data-driven marketing solution
 └── pre-commit     # Pre-commit checks
 
 src/              # Source code
-├── app/          # Next.js app
+├── app/          # Next.js app (routes)
+│   ├── (home)/        # Home page (/)
+│   ├── resume/        # Resume page (/resume)
+│   ├── marketing-analytics/
+│   ├── marketing-campaigns/
+│   ├── performance-metrics/
+│   └── company-info/
 ├── components/   # React components
 │   ├── season/   # Season feature
 │   └── ui/       # UI components
@@ -303,6 +309,48 @@ Key test suites:
   - `date.test.ts`: Season detection logic
 
 ### Test Configuration
+
+#### Test IDs for E2E Testing
+
+All test IDs are centralized in `src/lib/constants/test-ids.ts` for consistent testing:
+
+```typescript
+TEST_IDS = {
+  page: {
+    layout: 'page-layout', // Main page layout wrapper
+    home: 'page-home', // Home page content
+    resume: 'page-resume', // Resume page content
+    analytics: 'page-analytics', // Analytics page content
+    campaigns: 'page-campaigns', // Campaigns page content
+    metrics: 'page-metrics', // Metrics page content
+    company: 'page-company', // Company page content
+    hero: 'page-hero-section', // Hero section on home page
+  },
+  ui: {
+    title: 'ui-title-heading', // Page titles
+    text: 'ui-text-paragraph', // Text components
+    footer: 'ui-footer-container', // Footer component
+    iconGrid: 'ui-icon-grid', // Navigation grid
+  },
+}
+```
+
+E2E Testing Examples:
+
+```typescript
+// Navigation
+cy.getByTestId('ui-icon-grid').within(() => {
+  cy.contains('Resume').click()
+})
+cy.getByTestId('page-resume').should('be.visible')
+
+// Content
+cy.getByTestId('page-hero-section').within(() => {
+  cy.getByTestId('ui-title-heading').should('contain', 'Marketing')
+})
+```
+
+#### Jest Configuration
 
 - **Jest + React Testing Library**
   - JSDOM test environment
