@@ -16,7 +16,10 @@ A modern, responsive portfolio website showcasing data-driven marketing solution
 - 📈 Analytics & Campaign Management
 - 🎯 Performance Marketing Expertise
 - 📱 Fully responsive design
+- 🌈 Dynamic seasonal themes
 - 🔄 Dynamic content with rotating taglines
+- 🎨 Beautiful gradient animations
+- 🦶 Consistent footer across all pages
 
 ### Technical Features
 
@@ -52,6 +55,12 @@ A modern, responsive portfolio website showcasing data-driven marketing solution
 
 src/              # Source code
 ├── app/          # Next.js app
+│   ├── layout.tsx     # Root layout with providers
+│   ├── page.tsx      # Home page
+│   ├── marketing-analytics/  # Analytics route
+│   ├── marketing-campaigns/  # Campaigns route
+│   ├── performance-metrics/  # KPIs route
+│   └── company-info/        # Company info route
 ├── components/   # React components
 │   ├── season/   # Season feature
 │   └── ui/       # UI components
@@ -137,13 +146,27 @@ The project follows a component-based architecture with three main categories:
 
 #### UI Components
 
-- `footer.tsx`: Footer with seasonal colors
-- `text.tsx`: Animated text with seasonal colors and motion effects
-- `title.tsx`: Page titles with animations
+- `footer.tsx`: Customizable footer with seasonal colors and dynamic content
+
+  ```tsx
+  // Default usage
+  <Footer />
+
+  // Custom name/tagline
+  <Footer name="John Doe" tagline="Full Stack Developer" />
+
+  // Custom content
+  <Footer>
+    <p>Custom footer content</p>
+  </Footer>
+  ```
+
+- `text.tsx`: Animated text with seasonal colors
+- `title.tsx`: Page titles with seasonal gradient animations
 - `nav/`: Navigation components
   - `icons.tsx`: Icon exports from Lucide
   - `icon-link.tsx`: Single icon with hover effects
-  - `icon-grid.tsx`: Responsive icon grid
+  - `icon-grid.tsx`: Responsive icon grid with internal/external links
 
 #### Season Feature
 

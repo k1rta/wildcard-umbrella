@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
+import * as React from 'react'
 import { GeistSans } from 'geist/font/sans'
 import { SeasonProvider } from '@/components/season/provider'
+import { Footer } from '@/components/ui/footer'
 import './globals.css'
 
 const geist = GeistSans
@@ -22,8 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geist.className}>
-      <body className="bg-black antialiased">
-        <SeasonProvider>{children}</SeasonProvider>
+      <body className="bg-black antialiased min-h-screen flex flex-col">
+        <SeasonProvider>
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </SeasonProvider>
       </body>
     </html>
   )
