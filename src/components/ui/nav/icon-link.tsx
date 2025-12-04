@@ -12,7 +12,7 @@ type IconLinkProps = {
   icon: React.ReactNode
   label: string
   className?: string
-  'data-test'?: string
+  'data-testid'?: string
   target?: '_blank' | '_self'
 }
 
@@ -21,7 +21,7 @@ export function IconLink({
   icon,
   label,
   className = '',
-  'data-test': dataTest,
+  'data-testid': dataTest,
   target,
 }: IconLinkProps): JSX.Element {
   const isExternal = href.startsWith('http')
@@ -32,7 +32,7 @@ export function IconLink({
       href={href}
       target={linkTarget}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      data-test={dataTest}
+      data-testid={dataTest}
       aria-label={label}
       className={`flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all ${className}`}
       variants={iconVariants}

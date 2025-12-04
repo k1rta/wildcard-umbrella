@@ -12,5 +12,6 @@ export const TEST_IDS = {
     title: 'ui-title-heading',
     text: 'ui-text-paragraph',
     footer: 'ui-footer-container',
+    iconGrid: 'ui-icon-grid',
   },
 } as const

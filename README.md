@@ -309,6 +309,8 @@ Key test suites:
   - Coverage reporting enabled
   - Excludes stories, types, and layouts
   - Module path aliases support
+  - Standardized data-testid attributes
+  - Custom test utilities with SeasonProvider wrapper
 
 ## Troubleshooting
 

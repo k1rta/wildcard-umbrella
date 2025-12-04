@@ -5,6 +5,7 @@ import { IconLink } from './icon-link'
 import { useSeasonContext } from '../../season/provider'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import type { Season } from '@/lib/types/season'
+import { TEST_IDS } from '@/lib/constants/test-ids'
 
 type IconItem = {
   href: string
@@ -78,7 +79,7 @@ export function IconGrid({
   return (
     <nav
       className={`grid ${gridCols[columns]} gap-6 max-w-md mx-auto ${className}`}
-      data-test="icon-grid"
+      data-testid={TEST_IDS.ui.iconGrid}
       role="navigation"
       aria-label="Main navigation"
     >
@@ -89,7 +90,7 @@ export function IconGrid({
           icon={item.icon}
           label={item.label}
           className={iconStyle}
-          data-test={item.testId}
+          data-testid={item.testId}
         />
       ))}
     </nav>

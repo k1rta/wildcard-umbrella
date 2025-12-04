@@ -4,6 +4,7 @@ import * as React from 'react'
 import { motion } from 'framer-motion'
 import { useSeasonContext } from '../season/provider'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
+import { TEST_IDS } from '@/lib/constants/test-ids'
 
 type TextProps = {
   children: React.ReactNode
@@ -41,6 +42,7 @@ export function Text({ children, className = '', delay = 0, as = 'p' }: TextProp
         },
       }}
       role={as === 'p' ? 'paragraph' : undefined}
+      data-testid={TEST_IDS.ui.text}
     >
       {children}
     </Component>
