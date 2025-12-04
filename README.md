@@ -138,7 +138,7 @@ The project follows a component-based architecture with three main categories:
 #### UI Components
 
 - `footer.tsx`: Footer with seasonal colors
-- `text.tsx`: Animated text with seasonal colors
+- `text.tsx`: Animated text with seasonal colors and motion effects
 - `title.tsx`: Page titles with animations
 - `nav/`: Navigation components
   - `icons.tsx`: Icon exports from Lucide

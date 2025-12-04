@@ -1,21 +1,26 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { useSeasonContext } from '../season/provider'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 
-interface TextProps {
+type ElementType = 'p' | 'span' | 'div'
+
+type TextProps = {
   children: React.ReactNode
   className?: string
   delay?: number
+  as?: ElementType
 }
 
-export function Text({ children, className = '', delay = 0 }: TextProps) {
+export function Text({ children, className = '', delay = 0, as = 'p' }: TextProps): JSX.Element {
   const { season } = useSeasonContext()
   const { theme } = SEASON_CONFIGS[season as keyof typeof SEASON_CONFIGS]
 
+  const MotionComponent = as === 'p' ? motion.p : as === 'span' ? motion.span : motion.div
+
   return (
-    <motion.p
+    <MotionComponent
       className={`text-base sm:text-lg font-normal leading-relaxed tracking-wide ${theme.textAccent} ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{
@@ -27,9 +32,9 @@ export function Text({ children, className = '', delay = 0 }: TextProps) {
           ease: 'easeOut',
         },
       }}
-      role="paragraph"
+      role={as === 'p' ? 'paragraph' : undefined}
     >
       {children}
-    </motion.p>
+    </MotionComponent>
   )
 }
