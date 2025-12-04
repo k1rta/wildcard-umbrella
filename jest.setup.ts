@@ -17,18 +17,26 @@ afterAll(() => {
 })
 
 // Mock framer-motion
-jest.mock('framer-motion', () => ({
-  ...jest.requireActual('framer-motion'),
-  motion: {
-    div: ({ children, ...props }: any) => React.createElement('div', props, children),
-    section: ({ children, ...props }: any) => React.createElement('section', props, children),
-    footer: ({ children, ...props }: any) => React.createElement('footer', props, children),
-    h1: ({ children, ...props }: any) => React.createElement('h1', props, children),
-    p: ({ children, ...props }: any) => React.createElement('p', props, children),
-    a: ({ children, ...props }: any) => React.createElement('a', props, children),
-  },
-  AnimatePresence: ({ children }: any) => children,
-}))
+jest.mock('framer-motion', () => {
+  const mockComponent = (type: string) => {
+    return ({ children, variants, initial, whileHover, animate, ...props }: any) =>
+      React.createElement(type, props, children)
+  }
+
+  return {
+    ...jest.requireActual('framer-motion'),
+    motion: {
+      div: mockComponent('div'),
+      section: mockComponent('section'),
+      footer: mockComponent('footer'),
+      h1: mockComponent('h1'),
+      p: mockComponent('p'),
+      span: mockComponent('span'),
+      a: mockComponent('a'),
+    },
+    AnimatePresence: ({ children }: any) => children,
+  }
+})
 
 // Mock @tsparticles/react with initialization delay
 jest.mock('@tsparticles/react', () => {

@@ -20,33 +20,54 @@ const config = {
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@lib/(.*)$': '<rootDir>/src/lib/$1',
   },
-  testMatch: ['**/__tests__/**/*.{ts,tsx}', '**/*.{spec,test}.{ts,tsx}'],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+  ],
   testPathIgnorePatterns: ['/node_modules/', '/tests/test-utils', '/test-utils'],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.stories.{ts,tsx}',
-    '!src/test/**',
+    // Include components and date.ts
+    'src/components/**/*.{ts,tsx}',
+    'src/lib/utils/date.ts',
+    
+    // Exclude test files
+    '!src/**/*.test.{ts,tsx}',
+    '!src/**/*.spec.{ts,tsx}',
     '!src/**/__tests__/**',
-    '!src/**/types/**',
-    '!src/app/layout.tsx',
-    '!src/app/page.tsx',
-    '!src/lib/constants/**/*.{ts,tsx}',
-    '!src/lib/test/**/*.{ts,tsx}',
-    // Keep date utils in coverage as it contains core business logic
+    
+    // Exclude node_modules and build folders
+    '!**/node_modules/**',
+    '!**/.next/**',
+    '!**/dist/**',
+    '!**/coverage/**',
+    
+    // Exclude app pages from coverage (Next.js pages)
+    '!src/app/**/*.{ts,tsx}',
   ],
-  // The directory where Jest should output its coverage files
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/.next/',
+    '/coverage/',
+    '/dist/',
+    '/app/',
+  ],
   coverageDirectory: 'coverage',
-  // Minimum coverage threshold
-  // Temporarily disabled for initial push
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 80,
-  //     functions: 80,
-  //     lines: 80,
-  //     statements: 80
-  //   }
-  // },
+  
+  coverageReporters: [
+    'text',
+    'text-summary',
+    'html',
+    'lcov',
+  ],
+  
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
 }
 
 export default createJestConfig(config)
