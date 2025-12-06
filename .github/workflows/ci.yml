@@ -41,14 +41,14 @@ jobs:
 
       - name: Test with coverage
         id: test
-        run: npm run test:ci -- --json --outputFile=jest-results.json
+        run: npm run test:ci -- --json --outputFile=jest.results.json --testLocationInResults true
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: jest-results.json
+          path: jest.results.json
           retention-days: 5
 
       - name: Upload coverage artifacts
@@ -77,9 +77,14 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Jest Tests
-          path: jest-results.json
-          reporter: jest-json
+          name: '🧪 Jest Tests'
+          path: jest.results.json
+          reporter: jest
+          fail-on-error: true
+          only-summary: false
+          list-suites: 'all'
+          list-tests: 'all'
+          max-annotations: 50
 
       - name: Build
         run: npm run build
