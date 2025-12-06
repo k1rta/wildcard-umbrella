@@ -1,4 +1,4 @@
-name: 'Validate PR Title'
+name: 'PR Title Validation'
 
 on:
   pull_request_target:
@@ -24,6 +24,10 @@ jobs:
             refactor
             chore
           requireScope: false
-          subjectPattern: ^[A-Z][A-Za-z0-9\s]*$
+          subjectPattern: ^[A-Z].*$
           subjectPatternError: |
-            The subject must start with a capital letter and can only contain alphanumeric characters and spaces.
+            The description after the colon must start with a capital letter.
+            - ✓ feat: Add new feature
+            - ✓ chore: Update dependencies
+            - ✗ feat: add new feature
+            - ✗ chore: update dependencies
