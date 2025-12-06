@@ -58,6 +58,20 @@ const config = {
     'text-summary',
     'html',
     'lcov',
+    'junit'
+  ],
+  
+  reporters: [
+    'default',
+    ['jest-junit', {
+      outputDirectory: 'test-results',
+      outputName: 'junit.xml',
+      ancestorSeparator: ' › ',
+      uniqueOutputName: 'false',
+      suiteNameTemplate: '{filepath}',
+      classNameTemplate: '{classname}',
+      titleTemplate: '{title}'
+    }]
   ],
   
   coverageThreshold: {
