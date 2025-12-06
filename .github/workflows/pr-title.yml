@@ -1,0 +1,29 @@
+name: 'Validate PR Title'
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  main:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            chore
+          requireScope: false
+          subjectPattern: ^[A-Z][A-Za-z0-9\s]*$
+          subjectPatternError: |
+            The subject must start with a capital letter and can only contain alphanumeric characters and spaces.
