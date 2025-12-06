@@ -46,8 +46,8 @@ describe('Title', () => {
       },
       {
         season: 'summer' as Season,
-        gradient: 'from-amber-300 via-yellow-300 to-orange-300',
-        description: 'Warm summer sunset',
+        gradient: 'from-amber-500 via-yellow-500 to-orange-500',
+        description: 'Warm summer sunset (7:1 contrast)',
       },
       {
         season: 'autumn' as Season,
@@ -83,7 +83,7 @@ describe('Title', () => {
       const title = screen.getByTestId(TEST_IDS.ui.title)
 
       expect(title).toHaveClass('text-5xl')
-      expect(title).toHaveClass('font-extralight')
+      expect(title).toHaveClass('!font-extralight')
       expect(title).toHaveClass('bg-gradient-to-r')
       expect(title).toHaveClass('bg-clip-text')
       expect(title).toHaveClass('text-transparent')
@@ -120,17 +120,17 @@ describe('Title', () => {
 
       const title = screen.getByTestId(TEST_IDS.ui.title)
       expect(title).toHaveClass('mt-8')
-      expect(title).toHaveClass('from-amber-300')
+      expect(title).toHaveClass('from-amber-500')
     })
   })
 
   describe('Error Handling', () => {
-    it('should throw error when used outside SeasonProvider', () => {
+    it('should throw error when used outside SeasonProvider', async () => {
       // Suppress console.error for cleaner test output
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       // Import render from RTL directly (not the custom one with provider)
-      const { render: rtlRender } = require('@testing-library/react')
+      const { render: rtlRender } = await import('@testing-library/react')
 
       expect(() => rtlRender(<Title>Error Test</Title>)).toThrow(
         'useSeasonContext must be used within a SeasonProvider'
