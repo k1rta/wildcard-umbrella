@@ -11,6 +11,9 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -38,15 +41,45 @@ jobs:
 
       - name: Test with coverage
         id: test
-        run: npm run test:ci
+        run: npm run test:ci -- --json --outputFile=jest-results.json
 
-      - name: Upload coverage
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: jest-results.json
+          retention-days: 5
+
+      - name: Upload coverage artifacts
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: coverage/
           retention-days: 30
+
+      - name: Coverage Report
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: coverage/lcov.info
+
+      - name: Coverage Comment
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: coverage/lcov.info
+          title: 'Code Coverage Report'
+          delete-old-comments: true
+
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Jest Tests
+          path: jest-results.json
+          reporter: jest-json
 
       - name: Build
         run: npm run build
