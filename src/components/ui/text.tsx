@@ -2,9 +2,8 @@
 
 import * as React from 'react'
 import { motion } from 'framer-motion'
-import { useSeasonContext } from '../season/provider'
-import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import { TEST_IDS } from '@/lib/constants/test-ids'
+import { TAGLINE_ANIMATION_DURATION, TAGLINE_EASING } from '@/lib/constants/animations'
 
 /**
  * Valid HTML elements that can be used for text rendering
@@ -16,14 +15,11 @@ type TextElement = 'p' | 'span' | 'div'
  * @typedef TextProps
  */
 export type TextProps = {
-  /** Content to be rendered */
   readonly children: React.ReactNode
-  /** Optional CSS classes */
   readonly className?: string
-  /** Animation delay in seconds */
   readonly delay?: number
-  /** HTML element to render as. Affects semantics and accessibility */
   readonly as?: TextElement
+  readonly testId?: string
 }
 
 /**
@@ -33,10 +29,13 @@ export type TextProps = {
  * @param props - {@link TextProps}
  * @returns React element with motion animation
  */
-export function Text({ children, className = '', delay = 0, as = 'p' }: TextProps): JSX.Element {
-  const { season } = useSeasonContext()
-  const { theme } = SEASON_CONFIGS[season as keyof typeof SEASON_CONFIGS]
-
+export function Text({
+  children,
+  className = '',
+  delay = 0,
+  as = 'p',
+  testId,
+}: TextProps): JSX.Element {
   /**
    * Memoized motion component based on the 'as' prop
    * Prevents recreation of the component reference on re-renders
@@ -54,19 +53,17 @@ export function Text({ children, className = '', delay = 0, as = 'p' }: TextProp
 
   return (
     <Component
-      className={`text-base sm:text-lg font-normal leading-relaxed tracking-wide ${theme.textAccent} ${className}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 1.2,
-          delay,
-          ease: 'easeOut',
-        },
+      className={`text-base font-normal leading-relaxed tracking-wide !text-white/70 ${className}`}
+      data-testid={testId || TEST_IDS.ui.text}
+      initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
+      transition={{
+        duration: TAGLINE_ANIMATION_DURATION,
+        delay,
+        ease: TAGLINE_EASING,
       }}
       role={as === 'p' ? 'paragraph' : undefined}
-      data-testid={TEST_IDS.ui.text}
     >
       {children}
     </Component>

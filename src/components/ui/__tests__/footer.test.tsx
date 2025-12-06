@@ -32,7 +32,7 @@ describe('Footer', () => {
       expect(footer).toHaveClass('items-center')
       expect(footer).toHaveClass('gap-3')
       expect(footer).toHaveClass('text-center')
-      expect(footer).toHaveClass('opacity-75')
+      expect(footer).toHaveClass('text-white/70')
       expect(footer).toHaveClass('py-6')
       expect(footer).toHaveClass('mt-auto')
       expect(footer).toHaveClass('border-t')

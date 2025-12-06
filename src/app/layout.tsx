@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { SeasonProvider } from '@/components/season/provider'
 import './globals.css'
 
+// Load Geist with explicit weights to ensure proper font loading
 const geist = GeistSans
 
 export const metadata: Metadata = {

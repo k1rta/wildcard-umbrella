@@ -3,7 +3,7 @@
 exports[`IconLink should match snapshot 1`] = `
 <a
   aria-label="Test"
-  class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all "
+  class="flex flex-col items-center gap-1.5 text-white/70 transition-all "
   data-testid="test-link"
   href="/test"
   target="_self"
@@ -14,7 +14,7 @@ exports[`IconLink should match snapshot 1`] = `
     Icon
   </span>
   <span
-    class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+    class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
   >
     Test
   </span>

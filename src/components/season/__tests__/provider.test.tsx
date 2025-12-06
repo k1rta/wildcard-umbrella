@@ -157,12 +157,12 @@ describe('SeasonProvider', () => {
   })
 
   describe('Error Boundaries', () => {
-    it('should show helpful message when seasonal theme is used incorrectly', () => {
+    it('should show helpful message when seasonal theme is used incorrectly', async () => {
       // Suppress console.error for this test as we expect an error
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
 
       // Import render from RTL directly (not the custom one with provider)
-      const { render: rtlRender } = require('@testing-library/react')
+      const { render: rtlRender } = await import('@testing-library/react')
 
       expect(() => rtlRender(<ErrorTrigger />)).toThrow(
         'useSeasonContext must be used within a SeasonProvider'

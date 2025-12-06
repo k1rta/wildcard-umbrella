@@ -14,7 +14,8 @@ module.exports = {
       ],
     ],
     'scope-case': [2, 'always', 'kebab-case'],
-    'subject-case': [2, 'always', ['pascal-case', 'sentence-case']],
+    'subject-case': [2, 'always', 'sentence-case'],
+    'type-case': [2, 'always', 'lower-case'],
     'body-max-line-length': [2, 'always', 72],
   },
 }

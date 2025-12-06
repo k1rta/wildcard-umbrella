@@ -1,11 +1,31 @@
 export const TEST_IDS = {
+  pages: {
+    home: {
+      tagline: 'home-tagline',
+    },
+    marketingAnalytics: {
+      tagline: 'marketing-analytics-tagline',
+    },
+    marketingCampaigns: {
+      tagline: 'marketing-campaigns-tagline',
+    },
+    performanceMetrics: {
+      tagline: 'performance-metrics-tagline',
+    },
+    resume: {
+      tagline: 'resume-tagline',
+    },
+    companyInfo: {
+      tagline: 'company-info-tagline',
+    },
+  },
   page: {
     layout: 'page-layout',
     home: 'page-home',
-    resume: 'page-resume',
     analytics: 'page-analytics',
     campaigns: 'page-campaigns',
     metrics: 'page-metrics',
+    resume: 'page-resume',
     company: 'page-company',
     hero: 'page-hero-section',
   },
@@ -23,5 +43,10 @@ export const TEST_IDS = {
     text: 'ui-text-paragraph',
     footer: 'ui-footer-container',
     iconGrid: 'ui-icon-grid',
+  },
+  text: {
+    comingSoon: 'text-coming-soon',
+    mainContent: 'text-main-content',
+    tagline: 'text-tagline',
   },
 } as const

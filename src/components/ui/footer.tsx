@@ -1,9 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useSeasonContext } from '../season/provider'
-import { SEASON_CONFIGS } from '@/lib/constants/seasons'
-import type { Season } from '@/lib/types/season'
 import { TEST_IDS } from '@/lib/constants/test-ids'
 
 /**
@@ -23,9 +20,6 @@ export type FooterProps = {
  * @returns React element with motion animation
  */
 export function Footer({ className = '' }: FooterProps): JSX.Element {
-  const { season } = useSeasonContext()
-  const { theme } = SEASON_CONFIGS[season as Season]
-
   /**
    * Animation configuration
    * @readonly
@@ -39,11 +33,11 @@ export function Footer({ className = '' }: FooterProps): JSX.Element {
   return (
     <motion.footer
       {...animation}
-      className={`flex flex-col items-center gap-3 text-center opacity-75 py-6 mt-auto border-t border-current/5 ${className}`}
+      className={`flex flex-col items-center gap-3 text-center text-white/70 py-6 mt-auto border-t border-current/5 ${className}`}
       data-testid={TEST_IDS.ui.footer}
       role="contentinfo"
     >
-      <div className={`${theme.textAccent} text-[11px] tracking-[0.2em] font-thin uppercase`}>
+      <div className="text-[11px] tracking-[0.2em] font-thin uppercase text-white/70">
         © {new Date().getFullYear()} Nekmit OÜ • All rights reserved
       </div>
     </motion.footer>

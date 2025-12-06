@@ -9,7 +9,7 @@ exports[`IconGrid should match snapshot 1`] = `
 >
   <a
     aria-label="Resume"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-resume"
     href="/resume"
     target="_self"
@@ -44,14 +44,14 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       Resume
     </span>
   </a>
   <a
     aria-label="Analytics"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-analytics"
     href="/marketing-analytics"
     target="_self"
@@ -80,14 +80,14 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       Analytics
     </span>
   </a>
   <a
     aria-label="Campaigns"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-campaigns"
     href="/marketing-campaigns"
     target="_self"
@@ -124,14 +124,14 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       Campaigns
     </span>
   </a>
   <a
     aria-label="KPIs"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-kpis"
     href="/performance-metrics"
     target="_self"
@@ -154,14 +154,14 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       KPIs
     </span>
   </a>
   <a
     aria-label="Connect"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-linkedin"
     href="https://linkedin.com/in/yourprofile"
     rel="noopener noreferrer"
@@ -196,14 +196,14 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       Connect
     </span>
   </a>
   <a
     aria-label="Company"
-    class="flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
+    class="flex flex-col items-center gap-1.5 text-white/70 transition-all hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 hover:text-green-300"
     data-testid="icon-company"
     href="/company-info"
     target="_self"
@@ -238,7 +238,7 @@ exports[`IconGrid should match snapshot 1`] = `
       />
     </svg>
     <span
-      class="text-[13px] font-normal tracking-wide text-white/90 mt-1.5"
+      class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
     >
       Company
     </span>
