@@ -56,23 +56,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check PR title
-        uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          types: |
-            feat
-            fix
-            docs
-            style
-            refactor
-            test
-            chore
-          requireScope: false
-          subjectPattern: ^[A-Z].+$
-          subjectPatternError: Subject must start with a capital letter
-
       - name: Check branch name
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
