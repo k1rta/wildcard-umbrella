@@ -36,13 +36,13 @@ jobs:
       - name: Format check
         run: npm run format
 
-      - name: Test
+      - name: Test with coverage
         id: test
         run: npm run test:ci
 
       - name: Upload coverage
-        if: always() && steps.test.outcome == 'success'
-        uses: actions/upload-artifact@v4
+        if: success()
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: coverage/

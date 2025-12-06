@@ -11,7 +11,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --maxWorkers=2",
+    "test:ci": "jest --ci --coverage --maxWorkers=2 --detectOpenHandles --forceExit",
     "test:update": "jest -u",
     "test:related": "jest --findRelatedTests",
     "prepare": "husky install",
@@ -24,7 +24,7 @@
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "jest --findRelatedTests --passWithNoTests --coverage=false"
+      "jest --findRelatedTests --passWithNoTests --coverage=false --bail"
     ],
     "*.{json,md,yml,yaml,css}": "prettier --write"
   },
