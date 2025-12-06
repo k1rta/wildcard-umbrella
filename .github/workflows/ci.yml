@@ -63,7 +63,7 @@ jobs:
             echo "::error::Cannot create PR from main branch"
             exit 1
           fi
-          if [[ ! $BRANCH_NAME =~ ^(feature|fix|docs|chore|test|refactor)/[a-z0-9-]+$ ]]; then
+          if [[ ! $BRANCH_NAME =~ ^(feature|fix|docs|style|chore|test|refactor)/[a-z0-9-]+$ ]]; then
             echo "::error::Branch name must follow pattern: type/description"
             echo "::error::Examples: feature/add-dark-mode, fix/login-error"
             exit 1
