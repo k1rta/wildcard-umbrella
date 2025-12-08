@@ -36,10 +36,10 @@ jest.mock('framer-motion', () => {
     }) => {
       // Filter out Framer Motion specific props
       const domProps = { ...props }
-      delete domProps.variants
-      delete domProps.initial
-      delete domProps.whileHover
-      delete domProps.animate
+      delete domProps['variants']
+      delete domProps['initial']
+      delete domProps['whileHover']
+      delete domProps['animate']
       return React.createElement(type, domProps, children)
     }
   }
