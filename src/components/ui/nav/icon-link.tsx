@@ -60,13 +60,13 @@ function IconLinkComponent({
       rel={isExternal ? 'noopener noreferrer' : undefined}
       data-testid={dataTest}
       aria-label={label}
-      className={`flex flex-col items-center gap-1.5 text-white/90 hover:text-white transition-all ${className}`}
+      className={`flex flex-col items-center gap-1.5 text-white/70 transition-all ${className}`}
       variants={iconVariants}
       initial="initial"
       whileHover="hover"
     >
       {icon}
-      <span className="text-[13px] font-normal tracking-wide text-white/90 mt-1.5">{label}</span>
+      <span className="text-[13px] font-normal tracking-wide text-white/70 mt-1.5">{label}</span>
     </motion.a>
   )
 }

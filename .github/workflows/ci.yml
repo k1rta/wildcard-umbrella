@@ -11,6 +11,9 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -34,19 +37,33 @@ jobs:
         run: npm run lint
 
       - name: Format check
-        run: npm run format
+        run: npm run format:check
 
-      - name: Test
+      - name: Test with coverage
         id: test
         run: npm run test:ci
 
-      - name: Upload coverage
-        if: always() && steps.test.outcome == 'success'
+      - name: Upload coverage artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: coverage/
           retention-days: 30
+
+      - name: Coverage Report
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: coverage/lcov.info
+
+      - name: Coverage Comment
+        uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: coverage/lcov.info
+          title: 'Code Coverage Report'
+          delete-old-comments: true
 
       - name: Build
         run: npm run build
@@ -56,23 +73,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check PR title
-        uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          types: |
-            feat
-            fix
-            docs
-            style
-            refactor
-            test
-            chore
-          requireScope: false
-          subjectPattern: ^[A-Z].+$
-          subjectPatternError: Subject must start with a capital letter
-
       - name: Check branch name
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
@@ -80,7 +80,7 @@ jobs:
             echo "::error::Cannot create PR from main branch"
             exit 1
           fi
-          if [[ ! $BRANCH_NAME =~ ^(feature|fix|docs|chore|test|refactor)/[a-z0-9-]+$ ]]; then
+          if [[ ! $BRANCH_NAME =~ ^(feature|fix|docs|style|chore|test|refactor)/[a-z0-9-]+$ ]]; then
             echo "::error::Branch name must follow pattern: type/description"
             echo "::error::Examples: feature/add-dark-mode, fix/login-error"
             exit 1
