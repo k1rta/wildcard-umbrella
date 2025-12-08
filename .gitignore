@@ -21,8 +21,9 @@
 .DS_Store
 *.pem
 
-# coverage
+# coverage and test reports
 /coverage
+junit.xml
 
 # debug
 npm-debug.log*

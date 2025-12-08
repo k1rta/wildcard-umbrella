@@ -41,15 +41,7 @@ jobs:
 
       - name: Test with coverage
         id: test
-        run: npm run test:ci -- --reporters=jest-junit --outputFile=junit.xml --testLocationInResults true
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: junit.xml
-          retention-days: 5
+        run: npm run test:ci
 
       - name: Upload coverage artifacts
         if: success()
@@ -72,19 +64,6 @@ jobs:
           lcov-file: coverage/lcov.info
           title: 'Code Coverage Report'
           delete-old-comments: true
-
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: '🧪 Jest Tests'
-          path: junit.xml
-          reporter: jest-junit
-          fail-on-error: true
-          only-summary: false
-          list-suites: 'all'
-          list-tests: 'all'
-          max-annotations: 50
 
       - name: Build
         run: npm run build

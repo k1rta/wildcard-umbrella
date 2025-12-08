@@ -29,51 +29,26 @@ const config = {
     // Include components and date.ts
     'src/components/**/*.{ts,tsx}',
     'src/lib/utils/date.ts',
-    
+
     // Exclude test files
     '!src/**/*.test.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
     '!src/**/__tests__/**',
-    
+
     // Exclude node_modules and build folders
     '!**/node_modules/**',
     '!**/.next/**',
     '!**/dist/**',
     '!**/coverage/**',
-    
+
     // Exclude app pages from coverage (Next.js pages)
     '!src/app/**/*.{ts,tsx}',
   ],
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/.next/',
-    '/coverage/',
-    '/dist/',
-    '/app/',
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/', '/.next/', '/coverage/', '/dist/', '/app/'],
   coverageDirectory: 'coverage',
-  
-  coverageReporters: [
-    'text',
-    'text-summary',
-    'html',
-    'lcov',
-    'junit'
-  ],
-  
-  reporters: [
-    'default',
-    ['jest-junit', {
-      outputDirectory: 'test-results',
-      outputName: 'junit.xml',
-      ancestorSeparator: ' › ',
-      uniqueOutputName: 'false',
-      suiteNameTemplate: '{filepath}',
-      classNameTemplate: '{classname}',
-      titleTemplate: '{title}'
-    }]
-  ],
-  
+
+  coverageReporters: ['lcov', 'text-summary'],
+
   coverageThreshold: {
     global: {
       branches: 70,
