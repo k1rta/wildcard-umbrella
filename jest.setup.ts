@@ -4,7 +4,7 @@ import React from 'react'
 // Suppress act() warnings in tests (they don't affect functionality)
 const originalError = console.error
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args: unknown[]) => {
     if (typeof args[0] === 'string' && args[0].includes('was not wrapped in act')) {
       return
     }
@@ -19,8 +19,21 @@ afterAll(() => {
 // Mock framer-motion
 jest.mock('framer-motion', () => {
   const mockComponent = (type: string) => {
-    return ({ children, variants, initial, whileHover, animate, ...props }: any) =>
-      React.createElement(type, props, children)
+    return ({
+      children,
+      _variants,
+      _initial,
+      _whileHover,
+      _animate,
+      ...props
+    }: {
+      children?: React.ReactNode
+      _variants?: unknown
+      _initial?: unknown
+      _whileHover?: unknown
+      _animate?: unknown
+      [key: string]: unknown
+    }) => React.createElement(type, props, children)
   }
 
   return {
@@ -34,13 +47,13 @@ jest.mock('framer-motion', () => {
       span: mockComponent('span'),
       a: mockComponent('a'),
     },
-    AnimatePresence: ({ children }: any) => children,
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   }
 })
 
 // Mock @tsparticles/react with initialization delay
 jest.mock('@tsparticles/react', () => {
-  const MockParticles = ({ id, options }: any) =>
+  const MockParticles = ({ id, options }: { id: string; options?: { season?: string } }) =>
     React.createElement('div', {
       'data-testid': 'particles-background-container',
       'data-id': id,
@@ -55,8 +68,9 @@ jest.mock('@tsparticles/react', () => {
 // Mock next/dynamic to return components synchronously
 jest.mock('next/dynamic', () => ({
   __esModule: true,
-  default: (importFunc: any) => {
+  default: (_importFunc: () => Promise<unknown>) => {
     // Return the actual mocked component
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const mod = require('@tsparticles/react')
     return mod.default
   },
