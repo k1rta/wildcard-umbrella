@@ -21,19 +21,27 @@ jest.mock('framer-motion', () => {
   const mockComponent = (type: string) => {
     return ({
       children,
-      _variants,
-      _initial,
-      _whileHover,
-      _animate,
+      variants,
+      initial,
+      whileHover,
+      animate,
       ...props
     }: {
       children?: React.ReactNode
-      _variants?: unknown
-      _initial?: unknown
-      _whileHover?: unknown
-      _animate?: unknown
+      variants?: unknown
+      initial?: unknown
+      whileHover?: unknown
+      animate?: unknown
       [key: string]: unknown
-    }) => React.createElement(type, props, children)
+    }) => {
+      // Filter out Framer Motion specific props
+      const domProps = { ...props }
+      delete domProps.variants
+      delete domProps.initial
+      delete domProps.whileHover
+      delete domProps.animate
+      return React.createElement(type, domProps, children)
+    }
   }
 
   return {
