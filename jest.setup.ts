@@ -3,9 +3,14 @@ import React from 'react'
 
 // Suppress act() warnings in tests (they don't affect functionality)
 const originalError = console.error
+
 beforeAll(() => {
   console.error = (...args: unknown[]) => {
-    if (typeof args[0] === 'string' && args[0].includes('was not wrapped in act')) {
+    // Suppress specific deprecation warnings
+    if (
+      typeof args[0] === 'string' &&
+      (args[0].includes('ReactDOMTestUtils.act') || args[0].includes('react-dom/test-utils'))
+    ) {
       return
     }
     originalError.call(console, ...args)

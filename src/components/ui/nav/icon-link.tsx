@@ -45,7 +45,7 @@ function IconLinkComponent({
   className = '',
   'data-testid': dataTest,
   target,
-}: IconLinkProps): JSX.Element | null {
+}: IconLinkProps): React.ReactElement | null {
   if (!href || !label) {
     console.warn('IconLink: href and label are required')
     return null

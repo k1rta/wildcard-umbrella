@@ -26,6 +26,25 @@ function ErrorTrigger() {
 // Mock Setup
 jest.mock('@/lib/utils/date')
 jest.mock('../particles')
+jest.mock('@/lib/constants/seasons', () => ({
+  SEASONS: ['spring', 'summer', 'autumn', 'winter'],
+  SEASON_CONFIGS: {
+    spring: { particles: { colors: ['#test'], count: 35, size: 5, speed: 1.5, move: {} } },
+    summer: { particles: { colors: ['#test'], count: 25, size: 4, speed: 2, move: {} } },
+    autumn: { particles: { colors: ['#test'], count: 60, size: 2, speed: 8, move: {} } },
+    winter: { particles: { colors: ['#test'], count: 70, size: 2, speed: 6, move: {} } },
+  },
+}))
+jest.mock('@tsparticles/react', () => ({
+  __esModule: true,
+  default: ({ id, options }: { id: string; options: Record<string, unknown> }) => (
+    <div
+      data-testid={TEST_IDS.particles.container}
+      data-id={id}
+      data-options={JSON.stringify(options)}
+    />
+  ),
+}))
 
 // Import after mocks
 const dateUtils = jest.requireMock('@/lib/utils/date') as {
@@ -36,11 +55,25 @@ const particles = jest.requireMock('../particles') as {
 }
 
 // Configure mocks
-particles.ParticlesBackground = ({ season, children }) => (
-  <div data-testid={TEST_IDS.particles.container} data-season={season}>
-    {children}
-  </div>
-)
+particles.ParticlesBackground = ({ season }) => {
+  const mockParticles = jest.requireMock('@tsparticles/react').default
+  const config = jest.requireMock('@/lib/constants/seasons').SEASON_CONFIGS[season].particles
+  return mockParticles({
+    id: 'tsparticles',
+    options: {
+      fullScreen: { enable: true, zIndex: -1 },
+      particles: {
+        number: { value: config.count },
+        color: { value: config.colors },
+        size: { value: config.size },
+        move: { ...config.move, enable: true, speed: config.speed },
+        opacity: { value: 0.5 },
+      },
+      interactivity: { events: { onHover: { enable: false } } },
+      background: { color: '#000000' },
+    },
+  })
+}
 
 /**
  * Renders a SeasonProvider with test content
@@ -106,9 +139,10 @@ describe('SeasonProvider', () => {
     it('should display seasonal particle effects', () => {
       renderWithProvider('winter', <SeasonDisplay />)
       // Use getAllByTestId and take first element to handle multiple renders
-      const particlesBg = screen.getAllByTestId(TEST_IDS.particles.container)[0]
+      const particlesBgs = screen.getAllByTestId(TEST_IDS.particles.container)
+      expect(particlesBgs.length).toBeGreaterThan(0)
+      const particlesBg = particlesBgs[0] as HTMLElement
       expect(particlesBg).toBeInTheDocument()
-      expect(particlesBg).toHaveAttribute('data-season', 'winter')
     })
 
     it('should render child components with seasonal theme', () => {

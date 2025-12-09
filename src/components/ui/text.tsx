@@ -35,7 +35,7 @@ export function Text({
   delay = 0,
   as = 'p',
   testId,
-}: TextProps): JSX.Element {
+}: TextProps): React.ReactElement {
   /**
    * Memoized motion component based on the 'as' prop
    * Prevents recreation of the component reference on re-renders

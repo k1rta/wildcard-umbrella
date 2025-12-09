@@ -43,6 +43,7 @@ export const TEST_IDS = {
     text: 'ui-text-paragraph',
     footer: 'ui-footer-container',
     iconGrid: 'ui-icon-grid',
+    loading: 'ui-loading-state',
   },
   text: {
     comingSoon: 'text-coming-soon',

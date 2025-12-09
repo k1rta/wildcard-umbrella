@@ -11,14 +11,19 @@ export { TEST_IDS } from '@/lib/constants/test-ids'
  */
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   season?: Season
+  withSeasonProvider?: boolean
 }
 
-export function render(ui: ReactElement, { season, ...options }: CustomRenderOptions = {}) {
+export function render(
+  ui: ReactElement,
+  { season, withSeasonProvider = true, ...options }: CustomRenderOptions = {}
+) {
   if (season && typeof jest !== 'undefined') {
     const dateUtils = jest.requireMock('@/lib/utils/date')
     dateUtils.getCurrentSeason.mockReturnValue(season)
   }
-  return rtlRender(ui, { wrapper: SeasonProvider, ...options })
+  const Wrapper = withSeasonProvider ? SeasonProvider : undefined
+  return rtlRender(ui, { wrapper: Wrapper as React.ComponentType, ...options })
 }
 
 /**
