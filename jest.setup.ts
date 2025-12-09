@@ -29,10 +29,10 @@ jest.mock('framer-motion', () => {
   const mockComponent = (type: string) => {
     return ({
       children,
-      variants,
-      initial,
-      whileHover,
-      animate,
+      _variants,
+      _initial,
+      _whileHover,
+      _animate,
       ...props
     }: {
       children?: React.ReactNode
@@ -86,8 +86,7 @@ jest.mock('next/dynamic', () => ({
   __esModule: true,
   default: (_importFunc: () => Promise<unknown>) => {
     // Return the actual mocked component
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const mod = require('@tsparticles/react')
+    const mod = require('@tsparticles/react') // eslint-disable-line @typescript-eslint/no-var-requires
     return mod.default
   },
 }))
