@@ -64,7 +64,8 @@ describe('TeamSection', () => {
 
       const avatar = screen.getByTestId(`avatar-${memberWithAvatar.id}`)
       expect(avatar).toBeInTheDocument()
-      expect(avatar).toHaveAttribute('src', memberWithAvatar.avatar || '')
+      const src = avatar.getAttribute('src')
+      expect(src).toContain(encodeURIComponent(memberWithAvatar.avatar || ''))
       expect(avatar).toHaveAttribute('alt', memberWithAvatar.name)
     })
 
