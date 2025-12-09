@@ -1,8 +1,33 @@
-name: Lint and Test
+name: PR Checks
 
 on: pull_request
 
 jobs:
+  validate-title:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            chore
+          requireScope: false
+          subjectPattern: ^[A-Z][^.]*[^.]$
+          subjectPatternError: |
+            PR title must match commitlint format:
+            - Start with type (feat, fix, etc)
+            - Followed by colon and space
+            - Description starts with capital letter
+            - No period at the end
+          validateSingleCommit: false
+
   verify:
     name: Lint and Test
     runs-on: ubuntu-latest
