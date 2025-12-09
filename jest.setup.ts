@@ -6,10 +6,13 @@ const originalError = console.error
 
 beforeAll(() => {
   console.error = (...args: unknown[]) => {
-    // Suppress specific deprecation warnings
+    // Suppress known warnings
     if (
       typeof args[0] === 'string' &&
-      (args[0].includes('ReactDOMTestUtils.act') || args[0].includes('react-dom/test-utils'))
+      (args[0].includes('ReactDOMTestUtils.act') ||
+        args[0].includes('react-dom/test-utils') ||
+        (args[0].includes('An update to') &&
+          args[0].includes('inside a test was not wrapped in act')))
     ) {
       return
     }
