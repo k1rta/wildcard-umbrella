@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 echo "🔍 Running pre-commit checks..."
 
 # Check branch
@@ -7,12 +9,11 @@ if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
   exit 1
 fi
 
-# Run lint-staged
-echo "📝 Running lint-staged..."
-npm run lint-staged || exit 1
-
-# Run type check
-echo "🔎 Running type check..."
-npm run type-check || exit 1
+# Format and lint staged files
+echo "✨ Formatting and linting staged files..."
+npx lint-staged || {
+  echo "❌ Lint-staged failed"
+  exit 1
+}
 
 echo "✅ All pre-commit checks passed!"

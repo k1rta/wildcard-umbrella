@@ -141,7 +141,9 @@ describe('IconLink', () => {
   describe('Error Handling', () => {
     it('should warn and return null when href is missing', () => {
       // @ts-expect-error testing error case
-      const { container } = render(<IconLink icon={mockIcon} label="Test" />)
+      const { container } = render(<IconLink icon={mockIcon} label="Test" />, {
+        withSeasonProvider: false,
+      })
 
       expect(consoleSpy).toHaveBeenCalledWith('IconLink: href and label are required')
       expect(container.firstChild).toBeNull()
@@ -149,7 +151,9 @@ describe('IconLink', () => {
 
     it('should warn and return null when label is missing', () => {
       // @ts-expect-error testing error case
-      const { container } = render(<IconLink href="/test" icon={mockIcon} />)
+      const { container } = render(<IconLink href="/test" icon={mockIcon} />, {
+        withSeasonProvider: false,
+      })
 
       expect(consoleSpy).toHaveBeenCalledWith('IconLink: href and label are required')
       expect(container.firstChild).toBeNull()

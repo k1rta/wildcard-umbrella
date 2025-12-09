@@ -90,7 +90,7 @@ export function IconGrid({
   icons = DEFAULT_ICONS,
   className = '',
   columns = 3,
-}: IconGridProps): JSX.Element {
+}: IconGridProps): React.ReactElement {
   const { season } = useSeasonContext()
   const { theme } = SEASON_CONFIGS[season as Season]
 

@@ -21,7 +21,7 @@ export type PageLayoutProps = {
  * @param props - {@link PageLayoutProps}
  * @returns React element
  */
-export function PageLayout({ children, className = '' }: PageLayoutProps): JSX.Element {
+export function PageLayout({ children, className = '' }: PageLayoutProps): React.ReactElement {
   return (
     <div className="min-h-screen flex flex-col relative z-10" data-testid={TEST_IDS.page.layout}>
       <main

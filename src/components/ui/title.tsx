@@ -22,7 +22,7 @@ export type TitleProps = {
  * @param props - {@link TitleProps}
  * @returns React element with motion animation
  */
-export function Title({ children, className = '' }: TitleProps): JSX.Element {
+export function Title({ children, className = '' }: TitleProps): React.ReactElement {
   const { season } = useSeasonContext()
 
   /**

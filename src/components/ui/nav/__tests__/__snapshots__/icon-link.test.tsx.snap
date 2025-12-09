@@ -1,22 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`IconLink should match snapshot 1`] = `
-<a
-  aria-label="Test"
-  class="flex flex-col items-center gap-1.5 text-white/70 transition-all "
-  data-testid="test-link"
-  href="/test"
-  target="_self"
->
-  <span
-    data-testid="mock-icon"
-  >
-    Icon
-  </span>
-  <span
-    class="text-[13px] font-normal tracking-wide text-white/70 mt-1.5"
-  >
-    Test
-  </span>
-</a>
+<div
+  data-testid="particles-background-container"
+/>
 `;

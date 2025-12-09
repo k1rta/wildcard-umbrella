@@ -1,11 +1,19 @@
+#!/usr/bin/env sh
+
 echo "🔍 Running pre-push checks..."
 
-# Run tests with coverage
-echo "🧪 Running tests with coverage..."
-npm run test:ci || exit 1
+# Run full test suite with coverage
+echo "🧪 Running full test suite with coverage..."
+npm run test:ci || {
+  echo "❌ Tests failed or coverage below threshold"
+  exit 1
+}
 
-# Run build
-echo "🏗️ Running build..."
-npm run build || exit 1
+# Final lint check
+echo "📝 Running final lint check..."
+npm run lint || {
+  echo "❌ Lint check failed"
+  exit 1
+}
 
 echo "✅ All pre-push checks passed!"

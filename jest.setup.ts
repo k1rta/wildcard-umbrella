@@ -3,9 +3,17 @@ import React from 'react'
 
 // Suppress act() warnings in tests (they don't affect functionality)
 const originalError = console.error
+
 beforeAll(() => {
-  console.error = (...args: any[]) => {
-    if (typeof args[0] === 'string' && args[0].includes('was not wrapped in act')) {
+  console.error = (...args: unknown[]) => {
+    // Suppress known warnings
+    if (
+      typeof args[0] === 'string' &&
+      (args[0].includes('ReactDOMTestUtils.act') ||
+        args[0].includes('react-dom/test-utils') ||
+        (args[0].includes('An update to') &&
+          args[0].includes('inside a test was not wrapped in act')))
+    ) {
       return
     }
     originalError.call(console, ...args)
@@ -19,8 +27,29 @@ afterAll(() => {
 // Mock framer-motion
 jest.mock('framer-motion', () => {
   const mockComponent = (type: string) => {
-    return ({ children, variants, initial, whileHover, animate, ...props }: any) =>
-      React.createElement(type, props, children)
+    return ({
+      children,
+      _variants,
+      _initial,
+      _whileHover,
+      _animate,
+      ...props
+    }: {
+      children?: React.ReactNode
+      variants?: unknown
+      initial?: unknown
+      whileHover?: unknown
+      animate?: unknown
+      [key: string]: unknown
+    }) => {
+      // Filter out Framer Motion specific props
+      const domProps = { ...props }
+      delete domProps['variants']
+      delete domProps['initial']
+      delete domProps['whileHover']
+      delete domProps['animate']
+      return React.createElement(type, domProps, children)
+    }
   }
 
   return {
@@ -34,13 +63,13 @@ jest.mock('framer-motion', () => {
       span: mockComponent('span'),
       a: mockComponent('a'),
     },
-    AnimatePresence: ({ children }: any) => children,
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
   }
 })
 
 // Mock @tsparticles/react with initialization delay
 jest.mock('@tsparticles/react', () => {
-  const MockParticles = ({ id, options }: any) =>
+  const MockParticles = ({ id, options }: { id: string; options?: { season?: string } }) =>
     React.createElement('div', {
       'data-testid': 'particles-background-container',
       'data-id': id,
@@ -55,9 +84,9 @@ jest.mock('@tsparticles/react', () => {
 // Mock next/dynamic to return components synchronously
 jest.mock('next/dynamic', () => ({
   __esModule: true,
-  default: (importFunc: any) => {
+  default: (_importFunc: () => Promise<unknown>) => {
     // Return the actual mocked component
-    const mod = require('@tsparticles/react')
+    const mod = require('@tsparticles/react') // eslint-disable-line @typescript-eslint/no-var-requires
     return mod.default
   },
 }))

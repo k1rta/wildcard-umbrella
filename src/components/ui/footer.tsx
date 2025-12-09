@@ -19,7 +19,7 @@ export type FooterProps = {
  * @param props - {@link FooterProps}
  * @returns React element with motion animation
  */
-export function Footer({ className = '' }: FooterProps): JSX.Element {
+export function Footer({ className = '' }: FooterProps): React.ReactElement {
   /**
    * Animation configuration
    * @readonly

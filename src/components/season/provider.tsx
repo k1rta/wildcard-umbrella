@@ -1,10 +1,15 @@
 'use client'
 
 import { createContext, useContext, type ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import { getCurrentSeason } from '@/lib/utils/date'
 import type { Season } from '@/lib/types/season'
 import { SEASONS } from '@/lib/constants/seasons'
-import { ParticlesBackground } from './particles'
+
+const ParticlesBackground = dynamic(
+  () => import('./particles').then((mod) => mod.ParticlesBackground),
+  { ssr: false }
+)
 
 interface SeasonContextType {
   season: Season
