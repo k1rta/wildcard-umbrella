@@ -1,5 +1,4 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
 
 # Args: previous HEAD, new HEAD, checkout mode (0=branch, 1=file)
 # Only run on branch checkout
