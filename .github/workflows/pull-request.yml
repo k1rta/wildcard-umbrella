@@ -5,8 +5,8 @@ on:
     branches: [main, master, develop]
 
 jobs:
-  lint-and-format:
-    name: Lint and Format Check
+  all-checks:
+    name: Lint, Format, Type Check & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,43 +17,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps  # Add this flag
+        run: npm ci --legacy-peer-deps
 
-      - name: Check formatting
-        run: npm run format:check
+      - name: Run all checks
+        run: |
+          npm run format:check
+          npm run lint
+          npm run type-check
+          npm run test:ci
 
-      - name: Run linter
-        run: npm run lint
-
-      - name: Type check
-        run: npm run type-check
-
-  test:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps  # Add this flag
-
-      - name: Run tests with coverage
-        run: npm run test:ci
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage/lcov.info
-
-  pr-title:
-    name: Validate PR Title
-    runs-on: ubuntu-latest
-    steps:
-      - uses: amannn/action-semantic-pull-request@v5
+      - name: Validate PR title
+        uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
