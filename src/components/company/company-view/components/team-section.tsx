@@ -1,5 +1,6 @@
 import type { TeamMember } from '../types/company'
 import { Building2, Github, Linkedin, Twitter } from 'lucide-react'
+import Image from 'next/image'
 
 interface TeamSectionProps {
   team: TeamMember[]
@@ -20,10 +21,12 @@ export function TeamSection({ team }: TeamSectionProps) {
             className="bg-white/5 rounded-lg p-6 hover:bg-white/10 transition-colors"
           >
             {member.avatar ? (
-              <img
+              <Image
                 src={member.avatar}
                 alt={member.name}
-                className="w-24 h-24 rounded-full mx-auto mb-4"
+                width={200}
+                height={200}
+                className="rounded-full w-24 h-24 mx-auto mb-4"
                 data-testid={`avatar-${member.id}`}
               />
             ) : (
