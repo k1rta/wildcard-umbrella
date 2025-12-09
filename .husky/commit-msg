@@ -1,6 +1,12 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
 echo "🔍 Checking commit message..."
 
 # Validate commit message format with commitlint
-npx --no -- commitlint --edit ${1} || exit 1
+npx --no -- commitlint --edit ${1} || {
+  echo "❌ Commit message validation failed"
+  exit 1
+}
 
 echo "✅ Commit message is valid!"
