@@ -3,7 +3,30 @@ name: CI
 on: pull_request
 
 jobs:
+  validate-title:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            chore
+          requireScope: false
+          subjectPattern: ^[A-Z][^.]*[^.]$
+          subjectPatternError: |
+            The subject must begin with a capital letter and not end with a period.
+          wip: false
+          validateSingleCommit: false
+
   ci:
+    name: Lint and Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
