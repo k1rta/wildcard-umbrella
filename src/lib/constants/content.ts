@@ -1,10 +1,18 @@
 export const CONTENT = {
   TITLE: 'Marketing & Data Professional',
-  TAGLINES: [
-    'Data-Driven Marketing Solutions',
-    'Analytics & Campaign Management',
-    'Performance Marketing Expert',
-  ],
+  TAGLINES: {
+    HOME: [
+      'Transforming data insights into marketing strategies with measurable ROI.',
+      'Specializing in analytics and marketing automation to scale your business.',
+      'Creating data-driven campaigns that connect and deliver results.',
+    ],
+    COMING_SOON: 'Coming soon...',
+    ALTERNATIVE: [
+      'Data-Driven Marketing Solutions',
+      'Analytics & Campaign Management',
+      'Performance Marketing Expert',
+    ],
+  },
   FOOTER: {
     COPYRIGHT: '© {year} Your Name • Data-Driven Marketing Solutions',
   },
