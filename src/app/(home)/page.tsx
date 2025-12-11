@@ -11,13 +11,18 @@ export default function HomePage() {
   return (
     <PageLayout>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className="flex flex-col items-center gap-0 text-center w-full max-w-4xl mx-auto space-y-5">
+        <section className="mt-10 flex flex-col items-center text-center">
           <Title>Marketing & Data Professional</Title>
-          <Tagline animated lines={CONTENT.TAGLINES.HOME} testId={TEST_IDS.pages.home.tagline} />
-          <div className="mt-5">
-            <IconGrid />
-          </div>
-        </div>
+
+          <Tagline
+            animated
+            lines={CONTENT.TAGLINES.HOME}
+            testId={TEST_IDS.pages.home.tagline}
+            className="mt-5 mb-6 text-base sm:text-lg font-medium tracking-wide text-zinc-300 text-center whitespace-normal lg:whitespace-nowrap max-w-4xl"
+          />
+
+          <IconGrid />
+        </section>
       </div>
     </PageLayout>
   )

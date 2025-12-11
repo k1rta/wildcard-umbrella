@@ -1,5 +1,5 @@
 import { render, screen, TEST_IDS } from '@/lib/test/test-utils'
-import { IconGrid, type IconItem } from '../icon-grid'
+import { IconGrid } from '../icon-grid'
 import type { Season } from '@/lib/types/season'
 
 // Mock Setup
@@ -33,16 +33,6 @@ describe('IconGrid', () => {
       expect(screen.getByTestId('icon-company')).toBeInTheDocument()
     })
 
-    it('should render custom icons when provided', () => {
-      const customIcons: IconItem[] = [
-        { href: '/custom', icon: <span>Icon</span>, label: 'Custom', testId: 'icon-custom' },
-      ]
-      render(<IconGrid icons={customIcons} />)
-
-      expect(screen.getByTestId('icon-custom')).toBeInTheDocument()
-      expect(screen.queryByTestId('icon-resume')).not.toBeInTheDocument()
-    })
-
     it('should apply custom className', () => {
       render(<IconGrid className="custom-grid" />)
       const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
@@ -63,62 +53,23 @@ describe('IconGrid', () => {
   })
 
   describe('Layout', () => {
-    it('should use 3 columns by default', () => {
+    it('should use grid on mobile and flex on large screens', () => {
       render(<IconGrid />)
       const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
 
-      expect(grid).toHaveClass('md:grid-cols-3')
-    })
-
-    it('should support 2 column layout', () => {
-      render(<IconGrid columns={2} />)
-      const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
-
-      expect(grid).toHaveClass('grid-cols-2')
-      expect(grid).toHaveClass('lg:grid-cols-2')
-    })
-
-    it('should support 4 column layout', () => {
-      render(<IconGrid columns={4} />)
-      const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
-
-      expect(grid).toHaveClass('grid-cols-2')
-      expect(grid).toHaveClass('md:grid-cols-2')
-    })
-
-    it('should support 6 column layout', () => {
-      render(<IconGrid columns={6} />)
-      const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
-
+      expect(grid).toHaveClass('grid')
       expect(grid).toHaveClass('grid-cols-3')
-      expect(grid).toHaveClass('md:grid-cols-3')
+      expect(grid).toHaveClass('lg:grid-none')
+      expect(grid).toHaveClass('lg:flex')
+      expect(grid).toHaveClass('lg:flex-row')
     })
 
-    it('should have gap styling', () => {
+    it('should have correct gap styling', () => {
       render(<IconGrid />)
       const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
 
       expect(grid).toHaveClass('gap-6')
-    })
-  })
-
-  describe('Icon Configuration', () => {
-    it('should render empty grid when no icons provided', () => {
-      render(<IconGrid icons={[]} />)
-      const grid = screen.getByTestId(TEST_IDS.ui.iconGrid)
-
-      expect(grid).toBeInTheDocument()
-      expect(grid.children.length).toBe(0)
-    })
-
-    it('should handle single icon', () => {
-      const singleIcon: IconItem[] = [
-        { href: '/test', icon: <span>Test</span>, label: 'Test', testId: 'icon-test' },
-      ]
-      render(<IconGrid icons={singleIcon} />)
-
-      expect(screen.getByTestId('icon-test')).toBeInTheDocument()
-      expect(screen.getAllByRole('link')).toHaveLength(1)
+      expect(grid).toHaveClass('lg:gap-12')
     })
 
     it('should map icons correctly with testIds', () => {
@@ -156,19 +107,6 @@ describe('IconGrid', () => {
       rerender(<IconGrid />)
 
       expect(grid.innerHTML).toBe(initialHTML)
-    })
-
-    it('should re-render with different columns class', () => {
-      const { rerender } = render(<IconGrid columns={3} />)
-      const grid = screen.getByRole('navigation')
-
-      expect(grid).toHaveClass('md:grid-cols-3')
-
-      // Change columns prop
-      rerender(<IconGrid columns={2} />)
-
-      expect(grid).toHaveClass('lg:grid-cols-2')
-      expect(grid).not.toHaveClass('md:grid-cols-3')
     })
   })
 

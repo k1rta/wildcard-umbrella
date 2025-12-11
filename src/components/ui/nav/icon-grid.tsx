@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 import { SEASON_CONFIGS } from '@/lib/constants/seasons'
 import type { Season } from '@/lib/types/season'
 import { TEST_IDS } from '@/lib/constants/test-ids'
+import { cn } from '@/lib/utils/cn'
 
 /**
  * Configuration for a single icon item in the grid
@@ -30,10 +31,10 @@ export type IconItem = {
 export type IconGridProps = {
   /** Array of icon items to display. Defaults to DEFAULT_ICONS */
   readonly icons?: readonly IconItem[]
-  /** Optional CSS classes */
-  readonly className?: string
   /** Number of columns in the grid. Responsive behavior varies by column count */
   readonly columns?: 2 | 3 | 4 | 6
+  /** Optional CSS classes */
+  readonly className?: string
 }
 
 /**
@@ -86,46 +87,50 @@ const DEFAULT_ICONS = [
  * @param props - {@link IconGridProps}
  * @returns React element
  */
+const baseGridClasses =
+  'grid gap-6 max-w-md mx-auto lg:grid-none lg:flex lg:flex-row lg:items-center lg:justify-between lg:gap-12 lg:max-w-none'
+
+const columnClassesByProp: Record<NonNullable<IconGridProps['columns']>, string> = {
+  2: 'grid-cols-2 lg:grid-cols-2',
+  3: 'grid-cols-3 md:grid-cols-3',
+  4: 'grid-cols-2 md:grid-cols-2',
+  6: 'grid-cols-3',
+}
+
 export function IconGrid({
-  icons = DEFAULT_ICONS,
-  className = '',
+  icons,
   columns = 3,
+  className = '',
 }: IconGridProps): React.ReactElement {
   const { season } = useSeasonContext()
   const { theme } = SEASON_CONFIGS[season as Season]
+  const items = icons ?? DEFAULT_ICONS
 
-  /**
-   * Icon style classes including hover effects and theme-specific styles
-   * Memoized to prevent string concatenation on re-renders
-   */
   const iconStyle = useMemo(
     () =>
       `hover:scale-105 transition-all duration-300 ease-out opacity-90 hover:opacity-100 ${theme.iconHover}`,
     [theme.iconHover]
   )
 
-  /**
-   * Grid column classes based on the columns prop
-   * Memoized to prevent recalculation on re-renders
-   */
-  const gridColsClass = useMemo(() => {
-    const gridCols = {
-      2: 'grid-cols-2 lg:grid-cols-2',
-      3: 'grid-cols-2 md:grid-cols-3 lg:flex lg:justify-center lg:gap-12',
-      4: 'grid-cols-2 md:grid-cols-2 lg:flex lg:justify-center lg:gap-12',
-      6: 'grid-cols-3 md:grid-cols-3 lg:flex lg:justify-center lg:gap-12',
-    } as const
-    return gridCols[columns]
-  }, [columns])
+  if (items.length === 0) {
+    return (
+      <nav
+        className={cn(baseGridClasses, columnClassesByProp[columns], className)}
+        data-testid={TEST_IDS.ui.iconGrid}
+        role="navigation"
+        aria-label="Main navigation"
+      />
+    )
+  }
 
   return (
     <nav
-      className={`grid ${gridColsClass} gap-6 max-w-md mx-auto ${className}`}
+      className={cn(baseGridClasses, columnClassesByProp[columns], className)}
       data-testid={TEST_IDS.ui.iconGrid}
       role="navigation"
       aria-label="Main navigation"
     >
-      {icons.map((item) => (
+      {items.map((item) => (
         <IconLink
           key={item.testId}
           href={item.href}
