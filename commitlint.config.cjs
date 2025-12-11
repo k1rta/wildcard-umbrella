@@ -18,7 +18,7 @@ module.exports = {
       ],
     ],
     'type-case': [2, 'always', 'lower-case'],
-    'subject-case': [0], // Allow any case
+    'subject-case': [2, 'always', ['sentence-case', 'start-case']], // Must start with uppercase
     'subject-empty': [2, 'never'],
     'subject-full-stop': [2, 'never', '.'],
     'header-max-length': [2, 'always', 72],
