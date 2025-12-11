@@ -1,21 +1,22 @@
 'use client'
 
-import dynamic from 'next/dynamic'
+import { Title } from '@/components/ui/title'
 import { PageLayout } from '@/components/ui/layout'
-import { LoadingState } from '@/components/ui/loading-state'
-
-const AnalyticsView = dynamic(
-  () => import('@/components/marketing/analytics-view').then((mod) => mod.AnalyticsView),
-  {
-    loading: () => <LoadingState />,
-    ssr: false,
-  }
-)
+import { Tagline } from '@/components/shared/tagline'
+import { TEST_IDS } from '@/lib/constants/test-ids'
+import { CONTENT } from '@/lib/constants/content'
 
 export default function MarketingAnalytics() {
   return (
     <PageLayout>
-      <AnalyticsView />
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <div className="flex flex-col items-center gap-2 text-center w-full max-w-4xl mx-auto">
+          <Title>Marketing Analytics</Title>
+          <Tagline testId={TEST_IDS.pages.marketingAnalytics.tagline}>
+            {CONTENT.TAGLINES.COMING_SOON}
+          </Tagline>
+        </div>
+      </div>
     </PageLayout>
   )
 }
