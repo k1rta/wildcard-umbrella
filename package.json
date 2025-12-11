@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@tsparticles/react": "^3.0.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
     "geist": "^1.5.1",
     "lucide-react": "^0.556.0",
@@ -26,6 +27,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "swr": "^2.3.7",
+    "tailwind-merge": "^3.4.0",
     "tsparticles": "^3.9.1",
     "tsparticles-engine": "^2.12.0"
   },

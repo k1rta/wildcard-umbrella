@@ -6,7 +6,7 @@ export const CONTENT = {
       'Specializing in analytics and marketing automation to scale your business.',
       'Creating data-driven campaigns that connect and deliver results.',
     ],
-    COMING_SOON: 'Coming soon...',
+    COMING_SOON: 'Coming Soon • New Content in Development',
     ALTERNATIVE: [
       'Data-Driven Marketing Solutions',
       'Analytics & Campaign Management',

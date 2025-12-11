@@ -9,6 +9,14 @@ describe('Tagline', () => {
     expect(queryByTestId(TEST_IDS.text.tagline)).toBeNull()
   })
 
+  describe('wrapper spacing', () => {
+    it('has correct spacing classes', () => {
+      render(<Tagline>Test</Tagline>)
+      const wrapper = screen.getByTestId(TEST_IDS.text.tagline).parentElement
+      expect(wrapper).toHaveClass('max-w-3xl', 'mx-auto', 'px-4', 'text-center', 'my-6')
+    })
+  })
+
   describe('static mode', () => {
     it('renders static text with correct test id', () => {
       const text = CONTENT.TAGLINES.COMING_SOON
@@ -18,19 +26,36 @@ describe('Tagline', () => {
       const element = screen.getByTestId(TEST_IDS.text.tagline)
       expect(element).toBeInTheDocument()
       expect(element).toHaveTextContent(text)
-      expect(element).toHaveClass('text-lg', 'md:text-xl', 'text-zinc-400')
-      expect(element).not.toHaveClass('bg-gradient-to-r', 'text-transparent', 'bg-clip-text')
+      expect(element).toHaveClass(
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl',
+        'font-space',
+        'font-normal',
+        'tracking-wide',
+        'leading-relaxed',
+        'bg-gradient-to-r',
+        'text-transparent',
+        'bg-clip-text'
+      )
     })
   })
 
   describe('animated mode', () => {
     const lines = ['First line', 'Second line'] as const
 
-    it('renders gradient styling and cursor', () => {
+    it('renders with correct styling and cursor', () => {
       render(<Tagline animated lines={lines} />)
 
       const element = screen.getByTestId(TEST_IDS.text.tagline)
       expect(element).toHaveClass(
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl',
+        'font-space',
+        'font-normal',
+        'tracking-wide',
+        'leading-relaxed',
         'bg-gradient-to-r',
         'text-transparent',
         'bg-clip-text',

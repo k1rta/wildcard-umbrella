@@ -10,7 +10,7 @@ export default function MarketingAnalytics() {
   return (
     <PageLayout>
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className="flex flex-col items-center gap-2 text-center w-full max-w-4xl mx-auto">
+        <div className="flex flex-col items-center gap-0 text-center w-full max-w-4xl mx-auto space-y-5">
           <Title>Marketing Analytics</Title>
           <Tagline testId={TEST_IDS.pages.marketingAnalytics.tagline}>
             {CONTENT.TAGLINES.COMING_SOON}
