@@ -62,8 +62,8 @@ export function Tagline({
   animated = false,
   delay = DEFAULT_TYPING_DELAY,
   className = '',
-  gradientFrom = 'from-zinc-100',
-  gradientTo = 'to-zinc-400',
+  gradientFrom = 'from-zinc-300',
+  gradientTo = 'to-zinc-100',
   testId = TEST_IDS.text.tagline,
 }: TaglineProps): React.ReactElement | null {
   const [isMounted, setIsMounted] = useState(false)
@@ -132,9 +132,9 @@ export function Tagline({
   // Static mode - simple fade in
   if (!animated || lines.length <= 1) {
     return (
-      <div className="max-w-3xl mx-auto px-4 text-center">
+      <div className="max-w-3xl mx-auto px-4 text-center my-6">
         <motion.p
-          className="text-lg md:text-xl text-zinc-400"
+          className={`text-base sm:text-lg lg:text-xl font-space font-normal tracking-wide leading-relaxed bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent relative ${className}`}
           data-testid={testId}
           initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -169,7 +169,7 @@ export function Tagline({
       <AnimatePresence mode="wait">
         <motion.p
           key={lines[0]}
-          className={`text-lg md:text-xl bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent relative`}
+          className={`text-base sm:text-lg lg:text-xl font-space font-normal tracking-wide leading-relaxed bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent relative ${className}`}
           data-testid={testId}
           initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
