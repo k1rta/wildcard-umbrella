@@ -35,6 +35,8 @@ jobs:
         run: npm run type-check
 
       - name: Test with coverage
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         run: npm run test:ci
 
   pr-title:
