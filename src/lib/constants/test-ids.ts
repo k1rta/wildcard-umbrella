@@ -1,7 +1,49 @@
 export const TEST_IDS = {
+  // Page-level
+  page: {
+    layout: 'page-layout',
+  },
+
+  // UI Components
+  ui: {
+    title: 'ui-title',
+    text: 'ui-text',
+    footer: 'ui-footer',
+    iconGrid: 'icon-grid',
+    loadingState: 'loading-state',
+    loading: 'loading-state', // Alias
+    errorBoundary: 'error-boundary',
+  },
+
+  // Text/Typography
+  text: {
+    tagline: 'text-tagline',
+  },
+
+  // Navigation
+  nav: {
+    iconLink: 'nav-icon-link',
+  },
+
+  // Particles
+  particles: {
+    container: 'particles-background-container',
+  },
+
+  // Season (for provider tests)
+  season: {
+    providerContent: 'season-provider-content',
+    childPrimary: 'season-child-primary',
+    childSecondary: 'season-child-secondary',
+  },
+
+  // Pages
   pages: {
     home: {
       tagline: 'home-tagline',
+    },
+    resume: {
+      tagline: 'resume-tagline',
     },
     marketingAnalytics: {
       tagline: 'marketing-analytics-tagline',
@@ -12,42 +54,10 @@ export const TEST_IDS = {
     performanceMetrics: {
       tagline: 'performance-metrics-tagline',
     },
-    resume: {
-      tagline: 'resume-tagline',
-    },
     companyInfo: {
       tagline: 'company-info-tagline',
     },
   },
-  page: {
-    layout: 'page-layout',
-    home: 'page-home',
-    analytics: 'page-analytics',
-    campaigns: 'page-campaigns',
-    metrics: 'page-metrics',
-    resume: 'page-resume',
-    company: 'page-company',
-    hero: 'page-hero-section',
-  },
-  season: {
-    contextValue: 'season-context-value',
-    providerContent: 'season-provider-content',
-    childPrimary: 'season-child-primary',
-    childSecondary: 'season-child-secondary',
-  },
-  particles: {
-    container: 'particles-background-container',
-  },
-  ui: {
-    title: 'ui-title-heading',
-    text: 'ui-text-paragraph',
-    footer: 'ui-footer-container',
-    iconGrid: 'ui-icon-grid',
-    loading: 'ui-loading-state',
-  },
-  text: {
-    comingSoon: 'text-coming-soon',
-    mainContent: 'text-main-content',
-    tagline: 'text-tagline',
-  },
 } as const
+
+export type TestIds = typeof TEST_IDS

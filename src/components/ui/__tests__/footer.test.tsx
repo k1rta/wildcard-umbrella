@@ -28,15 +28,8 @@ describe('Footer', () => {
       const footer = screen.getByTestId(TEST_IDS.ui.footer)
 
       expect(footer).toHaveClass('flex')
-      expect(footer).toHaveClass('flex-col')
       expect(footer).toHaveClass('items-center')
-      expect(footer).toHaveClass('gap-3')
-      expect(footer).toHaveClass('text-center')
-      expect(footer).toHaveClass('text-white/70')
-      expect(footer).toHaveClass('py-6')
-      expect(footer).toHaveClass('mt-auto')
-      expect(footer).toHaveClass('border-t')
-      expect(footer).toHaveClass('border-current/5')
+      expect(footer).toHaveClass('justify-center')
     })
 
     it('should render as footer element', () => {
@@ -64,6 +57,20 @@ describe('Footer', () => {
       render(<Footer />)
       const footer = screen.getByTestId(TEST_IDS.ui.footer)
       expect(footer).toHaveTextContent(/All rights reserved/)
+    })
+  })
+
+  describe('Typography', () => {
+    it('should use Space Grotesk font', () => {
+      render(<Footer />)
+      const text = screen.getByText(/Nekmit OÜ/i)
+      expect(text).toHaveClass('font-space', 'font-light')
+    })
+
+    it('should have minimal padding', () => {
+      render(<Footer />)
+      const footer = screen.getByTestId(TEST_IDS.ui.footer)
+      expect(footer).toHaveClass('py-4')
     })
   })
 })

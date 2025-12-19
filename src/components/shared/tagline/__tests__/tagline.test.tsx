@@ -1,16 +1,48 @@
-import { render, screen } from '@/lib/test/test-utils'
+import { render, screen, TEST_IDS } from '@/lib/test/test-utils'
 import { Tagline, getNextLineIndex, shouldAnimate } from '../tagline'
 import { CONTENT } from '@/lib/constants/content'
-import { TEST_IDS } from '@/lib/constants/test-ids'
 
 describe('Tagline', () => {
   it('does not render anything when no content is provided', () => {
-    const { queryByTestId } = render(<Tagline animated lines={[]} />)
-    expect(queryByTestId(TEST_IDS.text.tagline)).toBeNull()
+    const { container } = render(<Tagline animated lines={[]} />)
+    const tagline = container.querySelector(`[data-testid="${TEST_IDS.text.tagline}"]`)
+    expect(tagline).toBeNull()
+  })
+
+  describe('wrapper spacing', () => {
+    it('has correct responsive wrapper classes', () => {
+      render(<Tagline>Test</Tagline>)
+      const wrapper = screen.getByTestId(TEST_IDS.text.tagline).parentElement
+      expect(wrapper).toHaveClass(
+        'w-full',
+        'max-w-4xl',
+        'mx-auto',
+        'px-4',
+        'text-center',
+        'flex',
+        'items-center',
+        'justify-center'
+      )
+    })
+
+    it('has fixed height to prevent layout shift', () => {
+      render(<Tagline>Test</Tagline>)
+      const wrapper = screen.getByTestId(TEST_IDS.text.tagline).parentElement
+      // Check for fixed height classes
+      expect(wrapper).toHaveClass('h-24', 'sm:h-16', 'md:h-10')
+    })
+  })
+
+  describe('responsive behavior', () => {
+    it('allows wrapping on mobile and single line on desktop', () => {
+      render(<Tagline>Test</Tagline>)
+      const element = screen.getByTestId(TEST_IDS.text.tagline)
+      expect(element).toHaveClass('whitespace-normal', 'md:whitespace-nowrap')
+    })
   })
 
   describe('static mode', () => {
-    it('renders static text with correct test id', () => {
+    it('renders static text with correct styling', () => {
       const text = CONTENT.TAGLINES.COMING_SOON
 
       render(<Tagline>{text}</Tagline>)
@@ -18,22 +50,40 @@ describe('Tagline', () => {
       const element = screen.getByTestId(TEST_IDS.text.tagline)
       expect(element).toBeInTheDocument()
       expect(element).toHaveTextContent(text)
-      expect(element).toHaveClass('text-lg', 'md:text-xl', 'text-zinc-400')
-      expect(element).not.toHaveClass('bg-gradient-to-r', 'text-transparent', 'bg-clip-text')
+      expect(element).toHaveClass(
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl',
+        'font-space',
+        'font-normal',
+        'tracking-wide',
+        'leading-relaxed',
+        'bg-gradient-to-r',
+        'bg-clip-text',
+        'text-transparent',
+        'relative'
+      )
     })
   })
 
   describe('animated mode', () => {
     const lines = ['First line', 'Second line'] as const
 
-    it('renders gradient styling and cursor', () => {
+    it('renders with correct styling and cursor', () => {
       render(<Tagline animated lines={lines} />)
 
       const element = screen.getByTestId(TEST_IDS.text.tagline)
       expect(element).toHaveClass(
+        'text-base',
+        'sm:text-lg',
+        'lg:text-xl',
+        'font-space',
+        'font-normal',
+        'tracking-wide',
+        'leading-relaxed',
         'bg-gradient-to-r',
-        'text-transparent',
         'bg-clip-text',
+        'text-transparent',
         'relative'
       )
 

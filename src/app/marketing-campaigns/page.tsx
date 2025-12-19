@@ -1,22 +1,11 @@
-'use client'
-
-import { Title } from '@/components/ui/title'
-import { PageLayout } from '@/components/ui/layout'
-import { Tagline } from '@/components/shared/tagline'
+import { ComingSoonPage } from '@/components/shared/coming-soon'
 import { TEST_IDS } from '@/lib/constants/test-ids'
-import { CONTENT } from '@/lib/constants/content'
 
-export default function MarketingCampaigns() {
+export default function MarketingCampaignsPage() {
   return (
-    <PageLayout>
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className="flex flex-col items-center gap-2 text-center w-full max-w-4xl mx-auto">
-          <Title>Marketing Campaigns</Title>
-          <Tagline testId={TEST_IDS.pages.marketingCampaigns.tagline}>
-            {CONTENT.TAGLINES.COMING_SOON}
-          </Tagline>
-        </div>
-      </div>
-    </PageLayout>
+    <ComingSoonPage
+      title="Marketing Campaigns"
+      taglineTestId={TEST_IDS.pages.marketingCampaigns.tagline}
+    />
   )
 }

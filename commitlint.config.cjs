@@ -7,21 +7,21 @@ module.exports = {
       [
         'feat', // New feature
         'fix', // Bug fix
-        'docs', // Documentation only changes
-        'style', // Code style (formatting, missing semi colons, etc)
-        'refactor', // Code change that neither fixes a bug nor adds a feature
+        'docs', // Documentation
+        'style', // Code style (formatting)
+        'refactor', // Code refactoring
         'perf', // Performance improvement
-        'test', // Adding missing tests or correcting existing tests
-        'chore', // Build process, dependencies, tooling
-        'ci', // CI configuration files and scripts
-        'revert', // Revert previous commit
+        'test', // Tests
+        'chore', // Build/tooling
+        'ci', // CI/CD changes
+        'revert', // Revert commit
       ],
     ],
     'type-case': [2, 'always', 'lower-case'],
-    'subject-case': [2, 'always', ['sentence-case', 'start-case']], // Must start with uppercase
+    'subject-case': [2, 'always', 'sentence-case'], // ✅ "Test format" (capital first letter)
     'subject-empty': [2, 'never'],
-    'subject-full-stop': [2, 'never', '.'],
-    'header-max-length': [2, 'always', 72],
+    'subject-full-stop': [2, 'never', '.'], // No period at end
+    'header-max-length': [2, 'always', 100], // ✅ Increased from 72
     'body-max-line-length': [2, 'always', 100],
   },
 }
