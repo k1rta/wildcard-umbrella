@@ -49,6 +49,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          requireScope: false
+          subjectPattern: ^[A-Z].+$ # Requires first letter to be capital
           types: |
             feat
             fix

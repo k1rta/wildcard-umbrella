@@ -1,27 +1,20 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
+    // Subject must start with capital letter
+    'subject-case': [2, 'always', 'sentence-case'],
+
+    // Ensure subject is not empty
+    'subject-empty': [2, 'never'],
+
+    // Type must be lowercase
+    'type-case': [2, 'always', 'lower-case'],
+
+    // Valid types
     'type-enum': [
       2,
       'always',
-      [
-        'feat', // New feature
-        'fix', // Bug fix
-        'docs', // Documentation
-        'style', // Code style (formatting)
-        'refactor', // Code refactoring
-        'perf', // Performance improvement
-        'test', // Tests
-        'chore', // Build/tooling
-        'ci', // CI/CD changes
-        'revert', // Revert commit
-      ],
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'chore', 'ci', 'revert'],
     ],
-    'type-case': [2, 'always', 'lower-case'],
-    'subject-case': [2, 'always', 'sentence-case'], // ✅ "Test format" (capital first letter)
-    'subject-empty': [2, 'never'],
-    'subject-full-stop': [2, 'never', '.'], // No period at end
-    'header-max-length': [2, 'always', 100], // ✅ Increased from 72
-    'body-max-line-length': [2, 'always', 100],
   },
 }
