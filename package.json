@@ -18,7 +18,8 @@
     "test:files": "jest --coverage --coverageReporters=lcov --coverageDirectory=coverage",
     "test:watch:file": "jest --watch --testPathPatterns",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
