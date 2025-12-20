@@ -2,28 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { TEST_IDS } from '@/lib/constants/test-ids'
+import { cn } from '@/lib/utils/cn'
 
-/**
- * Props for the Footer component
- * @typedef FooterProps
- */
 export type FooterProps = {
-  /** Optional CSS classes */
   readonly className?: string
 }
 
-/**
- * A seasonally themed footer component with copyright information.
- * Uses semantic footer element and proper ARIA roles.
- *
- * @param props - {@link FooterProps}
- * @returns React element with motion animation
- */
 export function Footer({ className = '' }: FooterProps): React.ReactElement {
-  /**
-   * Animation configuration
-   * @readonly
-   */
   const animation = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -33,13 +18,31 @@ export function Footer({ className = '' }: FooterProps): React.ReactElement {
   return (
     <motion.footer
       {...animation}
-      className={`flex flex-col items-center gap-3 text-center text-white/70 py-6 mt-auto border-t border-current/5 ${className}`}
+      className={cn(
+        'flex items-center justify-center',
+        'w-full',
+        'py-4 sm:py-5 md:py-6',
+        'px-4 sm:px-6',
+        'border-t border-white/20',
+        'mt-auto',
+        className
+      )}
       data-testid={TEST_IDS.ui.footer}
       role="contentinfo"
     >
-      <div className="text-[11px] tracking-[0.2em] font-thin uppercase text-white/70">
-        © {new Date().getFullYear()} Nekmit OÜ • All rights reserved
-      </div>
+      <p
+        className={cn(
+          'font-space font-light',
+          'text-[10px] sm:text-xs md:text-sm',
+          'tracking-[0.15em]',
+          'uppercase',
+          'text-white/40 hover:text-white/60',
+          'transition-colors duration-300',
+          'text-center'
+        )}
+      >
+        &copy; {new Date().getFullYear()} Nekmit O&Uuml; &bull; All rights reserved
+      </p>
     </motion.footer>
   )
 }

@@ -1,19 +1,20 @@
 #!/usr/bin/env sh
-
 echo "🔍 Running pre-push checks..."
 
-# Run full test suite with coverage
-echo "🧪 Running full test suite with coverage..."
-npm run test:ci || {
-  echo "❌ Tests failed or coverage below threshold"
+# Only run type check (fast)
+echo "📝 Running type check..."
+npm run type-check || {
+  echo "❌ Type check failed"
   exit 1
 }
 
-# Final lint check
-echo "📝 Running final lint check..."
+# Quick lint (already ran in pre-commit, but double check)
+echo "📝 Running lint check..."
 npm run lint || {
   echo "❌ Lint check failed"
   exit 1
 }
 
+# ✅ Run tests in CI only (not locally)
+echo "⚠️  Skipping tests (will run in CI)"
 echo "✅ All pre-push checks passed!"

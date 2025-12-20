@@ -1,53 +1,26 @@
-import type { ReactElement } from 'react'
-import { render as rtlRender, RenderOptions, act as rtlAct } from '@testing-library/react'
+import { render as rtlRender, RenderOptions, RenderResult } from '@testing-library/react'
+import { ReactElement } from 'react'
 import { SeasonProvider } from '@/components/season/provider'
-import type { Season } from '@/lib/types/season'
-
-// Re-export test IDs from constants
-export { TEST_IDS } from '@/lib/constants/test-ids'
 
 /**
- * Custom render with SeasonProvider wrapper
+ * Custom render that wraps components with all necessary providers
  */
-interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
-  season?: Season
-  withSeasonProvider?: boolean
-}
-
-export function render(
-  ui: ReactElement,
-  { season, withSeasonProvider = true, ...options }: CustomRenderOptions = {}
-) {
-  if (season && typeof jest !== 'undefined') {
-    const dateUtils = jest.requireMock('@/lib/utils/date')
-    dateUtils.getCurrentSeason.mockReturnValue(season)
+function render(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>): RenderResult {
+  function Wrapper({ children }: { children: React.ReactNode }) {
+    return <SeasonProvider>{children}</SeasonProvider>
   }
-  const Wrapper = withSeasonProvider ? SeasonProvider : undefined
-  return rtlRender(ui, { wrapper: Wrapper as React.ComponentType, ...options })
+
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-/**
- * Re-export act with proper async handling
- */
-export async function act(callback: () => Promise<void> | void): Promise<void> {
-  await rtlAct(async () => {
-    await callback()
-  })
-}
-
-/**
- * Safely test component rendering errors
- * @example
- * expect(() => renderWithError(<ErrorComponent />)).toThrow('Expected error')
- */
-export function renderWithError(ui: ReactElement, options?: CustomRenderOptions) {
-  try {
-    render(ui, options)
-  } catch (error) {
-    throw error
-  }
-}
-
-// Re-export everything else from RTL
+// Re-export everything from @testing-library/react
 export * from '@testing-library/react'
-export { render as default }
+
+// Export custom render (overrides default)
+export { render }
+
+// Export user event
+export { default as userEvent } from '@testing-library/user-event'
+
+// Export TEST_IDS for convenience
+export { TEST_IDS } from '@/lib/constants/test-ids'

@@ -4,52 +4,46 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TEST_IDS } from '@/lib/constants/test-ids'
-import { TAGLINE_ANIMATION_DURATION, TAGLINE_EASING } from '@/lib/constants/animations'
+import { cn } from '@/lib/utils/cn'
 
-type AnimationState = {
-  currentLine: number
-  displayText: string
-  isTyping: boolean
-}
-
-export interface TaglineProps extends React.PropsWithChildren {
-  /** Static mode – one simple line, e.g. "Coming soon" */
+export interface TaglineProps {
+  /** Static text content */
   children?: string
-
-  /** Animated mode – multiple lines, shown with typing effect */
+  /** Array of text lines to animate through */
   lines?: readonly string[]
-
-  /** If true, use typing/animated mode with `lines` */
+  /** Enable typing animation */
   animated?: boolean
-
-  /** Typing delay in ms per character (default 90ms) */
+  /** Delay between typing each character (ms) */
   delay?: number
-
-  /** Optional extra classes for the outer wrapper */
+  /** Additional CSS classes */
   className?: string
-
-  /** Optional Tailwind classes for gradient start color (animated mode) */
+  /** Gradient start color */
   gradientFrom?: string
-
-  /** Optional Tailwind classes for gradient end color (animated mode) */
+  /** Gradient end color */
   gradientTo?: string
-
-  /** Optional test ID for the component */
+  /** Test ID for component */
   testId?: string
 }
 
-const initialState: AnimationState = {
-  currentLine: 0,
-  displayText: '',
-  isTyping: false,
-}
+const DEFAULT_TYPING_DELAY = 90
+const ANIMATION_DURATION = 0.3
+const PAUSE_DURATION = 1500
 
-export const DEFAULT_TYPING_DELAY = 90
+// Responsive: wraps on mobile, single line on tablet+
+const baseStyles = cn(
+  'text-base sm:text-lg lg:text-xl',
+  'font-space font-normal',
+  'tracking-wide leading-relaxed',
+  'bg-gradient-to-r bg-clip-text text-transparent',
+  'whitespace-normal md:whitespace-nowrap'
+)
 
+/** Get the index of the next line in the rotation */
 export const getNextLineIndex = (currentIndex: number, totalLines: number): number => {
   return (currentIndex + 1) % totalLines
 }
 
+/** Check if animation should be active */
 export const shouldAnimate = (
   animated: boolean,
   lines: readonly string[],
@@ -62,122 +56,98 @@ export function Tagline({
   animated = false,
   delay = DEFAULT_TYPING_DELAY,
   className = '',
-  gradientFrom = 'from-zinc-100',
-  gradientTo = 'to-zinc-400',
+  gradientFrom = 'from-zinc-300',
+  gradientTo = 'to-zinc-100',
   testId = TEST_IDS.text.tagline,
 }: TaglineProps): React.ReactElement | null {
   const [isMounted, setIsMounted] = useState(false)
-  const [{ currentLine, displayText, isTyping }, setState] = useState<AnimationState>(initialState)
+  const [currentLine, setCurrentLine] = useState(0)
+  const [displayText, setDisplayText] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
 
-  // Handle mount and initial setup
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  // Handle component mount
+  useEffect(() => setIsMounted(true), [])
 
-  // Handle line rotation
+  // Handle text animation
   useEffect(() => {
     if (!shouldAnimate(animated, lines, isMounted) || lines.length <= 1) return
-
-    // Calculate total time for typing + pause
-    const currentText = lines[currentLine] || ''
-    const typingDuration = currentText.length * delay
-    const pauseDuration = 1500 // 1.5 second pause after typing
-    const totalDuration = typingDuration + pauseDuration
-
-    const rotationTimeout = setTimeout(() => {
-      setState((prev) => ({
-        currentLine: getNextLineIndex(prev.currentLine, lines.length),
-        displayText: '',
-        isTyping: true,
-      }))
-    }, totalDuration)
-
-    return () => clearTimeout(rotationTimeout)
-  }, [animated, lines, currentLine, delay, isMounted])
-
-  // Handle typing effect
-  useEffect(() => {
-    if (!shouldAnimate(animated, lines, isMounted)) return
 
     const text = lines[currentLine]
     if (!text) return
 
-    // Reset state for new line
-    setState((prev) => ({ ...prev, isTyping: true, displayText: '' }))
-
     let currentChar = 0
-    const typeInterval = setInterval(() => {
-      setState((prev) => {
-        if (currentChar >= text.length) {
-          clearInterval(typeInterval)
-          return { ...prev, isTyping: false, displayText: text }
-        }
+    setIsTyping(true)
+    setDisplayText('')
 
-        currentChar++
-        return {
-          ...prev,
-          displayText: text.slice(0, currentChar),
-        }
-      })
+    // Type out the current line
+    const typeInterval = setInterval(() => {
+      if (currentChar >= text.length) {
+        clearInterval(typeInterval)
+        setIsTyping(false)
+        return
+      }
+      setDisplayText(text.slice(0, ++currentChar))
     }, delay)
 
-    return () => clearInterval(typeInterval)
+    // Set up the next line
+    const rotationTimeout = setTimeout(
+      () => {
+        setCurrentLine((prev) => getNextLineIndex(prev, lines.length))
+      },
+      text.length * delay + PAUSE_DURATION
+    )
+
+    return () => {
+      clearInterval(typeInterval)
+      clearTimeout(rotationTimeout)
+    }
   }, [animated, currentLine, delay, isMounted, lines])
 
-  // Render nothing if no content is provided
-  if (!children && (!lines || lines.length === 0)) {
-    return null
-  }
+  // Handle empty state
+  if (!children && lines.length === 0) return null
 
-  // Static mode - simple fade in
+  // Reserve exact space based on line height to prevent icon shift
+  // Mobile (< 640px): 3 lines × 1.75rem + spacing = 6rem
+  // Tablet (640px+): 2 lines × 1.75rem + spacing = 4rem
+  // Desktop (768px+): 1 line = 2.5rem
+  const wrapperClasses = cn(
+    'w-full max-w-4xl mx-auto px-4 text-center',
+    // Fixed heights prevent layout shift across all screen sizes
+    'h-24 sm:h-16 md:h-10',
+    'flex items-center justify-center',
+    className
+  )
+  const textClasses = cn(baseStyles, gradientFrom, gradientTo, 'relative')
+
+  // Static mode
   if (!animated || lines.length <= 1) {
     return (
-      <div className="max-w-3xl mx-auto px-4 text-center">
+      <div className={wrapperClasses}>
         <motion.p
-          className="text-lg md:text-xl text-zinc-400"
+          className={textClasses}
           data-testid={testId}
           initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{
-            duration: TAGLINE_ANIMATION_DURATION,
-            ease: TAGLINE_EASING,
-          }}
+          transition={{ duration: ANIMATION_DURATION }}
         >
-          {children}
+          {children || lines[0]}
         </motion.p>
       </div>
     )
   }
 
-  // Server + first client paint: render static first line (no motion props)
-  if (!isMounted) {
-    return (
-      <div className={`max-w-3xl mx-auto px-4 text-center ${className}`}>
-        <p
-          className={`text-lg md:text-xl bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent`}
-          data-testid={testId}
-        >
-          {lines[0] || ''}
-        </p>
-      </div>
-    )
-  }
-
-  // After mount: render animated version with typewriter
+  // Animated mode
   return (
-    <div className={`max-w-3xl mx-auto px-4 text-center ${className}`}>
+    <div className={wrapperClasses}>
       <AnimatePresence mode="wait">
         <motion.p
-          key={lines[0]}
-          className={`text-lg md:text-xl bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent relative`}
+          key={currentLine}
+          className={textClasses}
           data-testid={testId}
-          initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+          initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-          transition={{
-            duration: TAGLINE_ANIMATION_DURATION,
-            ease: TAGLINE_EASING,
-          }}
+          exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+          transition={{ duration: ANIMATION_DURATION }}
         >
           {displayText}
           {isTyping && (

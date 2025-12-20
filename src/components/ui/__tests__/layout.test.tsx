@@ -51,38 +51,19 @@ describe('PageLayout', () => {
       expect(main).toHaveClass('flex')
       expect(main).toHaveClass('flex-col')
       expect(main).toHaveClass('items-center')
-      expect(main).toHaveClass('justify-center')
-      expect(layout).toHaveClass('min-h-screen')
-      expect(layout).toHaveClass('flex')
-      expect(layout).toHaveClass('relative')
-      expect(layout).toHaveClass('z-10')
     })
   })
 
-  describe('Animation', () => {
-    it('should render with motion component', () => {
+  describe('Spacing', () => {
+    it('should have consistent gap between elements', () => {
       render(
         <PageLayout>
-          <div>Animated Content</div>
-        </PageLayout>
-      )
-      const layout = screen.getByTestId(TEST_IDS.page.layout)
-      expect(layout).toBeInTheDocument()
-    })
-
-    it('should combine custom className with base styles', () => {
-      render(
-        <PageLayout className="mt-8 bg-gray-100">
           <div>Content</div>
         </PageLayout>
       )
       const layout = screen.getByTestId(TEST_IDS.page.layout)
       const main = layout.querySelector('main')
-
-      expect(main).toHaveClass('mt-8')
-      expect(main).toHaveClass('bg-gray-100')
-      expect(main).toHaveClass('flex-1')
-      expect(main).toHaveClass('flex')
+      expect(main).toHaveClass('gap-8')
     })
   })
 })

@@ -10,6 +10,7 @@ jobs:
   test-and-lint:
     name: Test & Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -33,7 +34,9 @@ jobs:
       - name: Type check
         run: npm run type-check
 
-      - name: Test
+      - name: Test with coverage
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         run: npm run test:ci
 
   pr-title:
@@ -46,12 +49,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          requireScope: false
+          subjectPattern: ^[A-Z].+$ # Requires first letter to be capital
           types: |
             feat
             fix
             docs
             style
             refactor
+            perf
             test
             chore
             ci
+            revert

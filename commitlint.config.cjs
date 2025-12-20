@@ -1,27 +1,12 @@
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
+    'subject-case': [2, 'always', 'sentence-case'],
+    'type-case': [2, 'always', 'lower-case'],
     'type-enum': [
       2,
       'always',
-      [
-        'feat', // New feature
-        'fix', // Bug fix
-        'docs', // Documentation only changes
-        'style', // Code style (formatting, missing semi colons, etc)
-        'refactor', // Code change that neither fixes a bug nor adds a feature
-        'perf', // Performance improvement
-        'test', // Adding missing tests or correcting existing tests
-        'chore', // Build process, dependencies, tooling
-        'ci', // CI configuration files and scripts
-        'revert', // Revert previous commit
-      ],
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'chore', 'ci', 'revert'],
     ],
-    'type-case': [2, 'always', 'lower-case'],
-    'subject-case': [2, 'always', ['sentence-case', 'start-case']], // Must start with uppercase
-    'subject-empty': [2, 'never'],
-    'subject-full-stop': [2, 'never', '.'],
-    'header-max-length': [2, 'always', 72],
-    'body-max-line-length': [2, 'always', 100],
   },
 }

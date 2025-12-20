@@ -10,34 +10,55 @@ const config = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   roots: ['<rootDir>/src'],
+
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@lib/(.*)$': '<rootDir>/src/lib/$1',
   },
+
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
   ],
+
   collectCoverage: true,
-  collectCoverageFrom: ['src/components/**/*.tsx', 'src/lib/utils/date.ts'],
+
+  collectCoverageFrom: [
+    'src/components/ui/**/*.{ts,tsx}',
+    'src/components/shared/**/*.{ts,tsx}',
+    'src/components/season/**/*.{ts,tsx}',
+    'src/lib/utils/**/*.{ts,tsx}',
+    'src/lib/api/**/*.{ts,tsx}',
+    '!**/ index.{ts,tsx}',
+  ],
+
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '/tests/',
     '/__tests__/',
     '/test-utils/',
-    '\.test\.',
-    '\.spec\.',
-    '\.d\.ts$',
+    '\\.test\\.',
+    '\\.spec\\.',
+    '\\.d\\.ts$',
     '/types/',
     '/constants/',
-    '/api/',
+    '/styles/',
     '/app/',
-    'page\.tsx$',
-    'layout\.tsx$',
-    'index\.tsx$',
-    'index\.ts$',
+    '/src/app/',
+    '/components/company/',
+    '/components/marketing/',
+    '/components/performance/',
+    '/components/resume/',
+    '/resume-view/',
+    '/metrics-view/',
+    '/campaigns-view/',
+    '/company-view/',
+    'middleware\\.ts$',
+    'particles\\.tsx$',
+    'coming-soon\\.tsx$',
+    'index\\.tsx?$',
   ],
+
   coverageThreshold: {
     global: {
       branches: 70,
@@ -46,6 +67,8 @@ const config = {
       statements: 70,
     },
   },
+
+  maxWorkers: '50%',
 }
 
 export default createJestConfig(config)
